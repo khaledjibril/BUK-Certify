@@ -101,7 +101,7 @@ function HeroCarousel({ setPage }) {
           <p className="buk-motto">TO LEAD IN RESEARCH AND EDUCATION IN AFRICA</p>
         </div>
         <p className="hero-subtitle">
-          BUK provides <strong>secure</strong> verification of academic qualifications issued by Bayero University Kano.
+          A platform for a <strong>secure</strong> verification of academic qualifications issued by Bayero University Kano.
         </p>
         <div className="hero-buttons">
           <button className="primary-btn" onClick={() => setPage('verifier')}>
