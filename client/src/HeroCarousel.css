@@ -159,8 +159,7 @@
   height: 120px;
   margin: 0 auto 24px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0066b3 0%, #009fe3 100%);
-  display: flex;
+
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 25px rgba(0, 102, 179, 0.3);
