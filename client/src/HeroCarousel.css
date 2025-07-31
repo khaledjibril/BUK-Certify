@@ -118,7 +118,7 @@
   background: rgba(255, 255, 255, 0.8);
 }
 
-/* Overlay Content */
+/* Overlay Content - Removed blue effects */
 .carousel-overlay {
   position: absolute;
   top: 0;
@@ -131,6 +131,7 @@
   justify-content: center;
   z-index: 5;
   padding: 0 20px;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .carousel-overlay .buk-logo-section {
@@ -150,7 +151,7 @@
   height: 100%;
   object-fit: contain;
   border-radius: 50%;
-  box-shadow: 0 8px 25px rgba(0, 102, 179, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
@@ -159,17 +160,18 @@
   height: 120px;
   margin: 0 auto 24px;
   border-radius: 50%;
-
+  background: #fff;
+  display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 25px rgba(0, 102, 179, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
 .carousel-overlay .buk-hero-logo-container:hover .buk-hero-logo-image,
 .carousel-overlay .buk-hero-logo:hover {
   transform: scale(1.1);
-  box-shadow: 0 12px 35px rgba(0, 102, 179, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
 }
 
 .carousel-overlay .buk-hero-initials {
@@ -222,7 +224,7 @@
 }
 
 .carousel-overlay .primary-btn {
-  background: linear-gradient(135deg, #0066b3 0%, #009fe3 100%);
+  background: #333;
   color: #fff;
   font-weight: 700;
   border: none;
@@ -231,7 +233,7 @@
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(0, 102, 179, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -253,14 +255,14 @@
 
 .carousel-overlay .primary-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(0, 102, 179, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
 }
 
 .carousel-overlay .secondary-btn {
   background: rgba(255, 255, 255, 0.9);
-  color: #0066b3;
+  color: #333;
   font-weight: 700;
-  border: 2px solid #0066b3;
+  border: 2px solid #333;
   border-radius: 12px;
   padding: 16px 32px;
   font-size: 1.1rem;
@@ -270,10 +272,10 @@
 }
 
 .carousel-overlay .secondary-btn:hover {
-  background: #0066b3;
+  background: #333;
   color: #fff;
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(0, 102, 179, 0.3);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
 /* Animations */
@@ -348,4 +350,4 @@
   .carousel-overlay .buk-hero-initials {
     font-size: 1.8rem;
   }
-} 
+}
