@@ -46,7 +46,7 @@ function Footer() {
         <div className="buk-footer-links">
           <NavLink to="/" onClick={scrollToTop}>Home</NavLink>
           <NavLink to="/about" onClick={scrollToTop}>About Us</NavLink>
-          <NavLink to="/verifier" onClick={scrollToTop}>Verify Certificate</NavLink>
+          <NavLink to="/verifier/login" onClick={scrollToTop}>Verify Certificate</NavLink>
           <NavLink to="/contact" onClick={scrollToTop}>Contact Us</NavLink>
         </div>
 
