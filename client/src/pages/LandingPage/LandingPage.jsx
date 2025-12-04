@@ -22,7 +22,7 @@ function LandingPage() {
             Use this platform to verify the authenticity of certificates and qualifications issued by Bayero University Kano,
             and obtain a unique verification code for employers and institutions.
           </p>
-          <button className="primary-btn" onClick={() => handleNavigate('/verifier')}>
+          <button className="primary-btn" onClick={() => handleNavigate('/verifier/login')}>
             Verify a BUK Certificate
           </button>
         </div>
@@ -48,7 +48,7 @@ function LandingPage() {
                 Users of the verification system need to register to verify candidate certificates. Once registered, a
                 confirmation email will be sent to your registered email address.
               </p>
-              <button className="secondary-btn" onClick={() => handleNavigate('/verifier')}>
+              <button className="secondary-btn" onClick={() => handleNavigate('/verifier/login')}>
                 Register Now
               </button>
             </div>
@@ -198,7 +198,7 @@ function LandingPage() {
             Start your secure verification process with BUKcertify - the official platform for verifying Bayero University Kano
             qualifications
           </p>
-          <button className="primary-btn large" onClick={() => handleNavigate('/verifier')}>
+          <button className="primary-btn large" onClick={() => handleNavigate('/verifier/login')}>
             Start Verification with BUKcertify
           </button>
         </div>
