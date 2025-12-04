@@ -234,7 +234,7 @@ function VerifierLogin() {
             </button>
           </form>
 
-          <div className="verifier-info">
+          {/* <div className="verifier-info">
             <h3>Who can register as a verifier?</h3>
             <ul>
               <li>Employers and HR professionals</li>
@@ -243,7 +243,7 @@ function VerifierLogin() {
               <li>Professional licensing bodies</li>
               <li>Background check companies</li>
             </ul>
-          </div>
+          </div> */}
 
           <div className="verifier-security">
             <h4> Secure Verification System</h4>

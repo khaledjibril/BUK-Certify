@@ -55,12 +55,12 @@ function Navbar({ adminLink }) {
             <span className="buk-initials">BUK</span>
           </div>
         </div>
-        <span className="buk-logo-text">Bayero University Kano</span>
+        <span className="buk-logo-text">BUK Certify</span>
       </div>
 
       {/* Burger Menu */}
       <button
-        className={`burger${menuOpen ? ' open' : ''}`}
+        className={`burger${menuOpen ? ' open' : ''}`}s
         onClick={handleBurgerClick}
         aria-label="Toggle menu"
         ref={burgerRef}
@@ -103,7 +103,7 @@ function Navbar({ adminLink }) {
 
         <li>
           <NavLink
-            to="/verifier"
+            to="/verifier/login"
             className={({ isActive }) => (isActive ? 'active' : '')}
             onClick={() => {
               scrollToTop();
@@ -117,7 +117,7 @@ function Navbar({ adminLink }) {
         {adminLink && (
           <li>
             <NavLink
-              to="/admin"
+              to="/admin/login"
               className={({ isActive }) => (isActive ? 'active' : '')}
               onClick={() => {
                 scrollToTop();
