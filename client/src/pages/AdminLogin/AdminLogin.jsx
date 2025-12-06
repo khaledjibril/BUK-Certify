@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 
 function AdminLogin({ onLogin }) {
   const [password, setPassword] = useState('');
@@ -29,7 +31,9 @@ function AdminLogin({ onLogin }) {
   };
 
   return (
-    <section className="buk-card" style={{margin:'48px auto',maxWidth:400}}>
+    <div className="Admin">
+      <Navbar />
+          <section className="buk-card" style={{margin:'48px auto',maxWidth:400}}>
       <h2>Admin Login</h2>
       <form onSubmit={handleSubmit} className="buk-form">
         <label htmlFor="admin-password">Password</label>
@@ -45,6 +49,9 @@ function AdminLogin({ onLogin }) {
       </form>
       {error && <div className="buk-result error">{error}</div>}
     </section>
+    <Footer />
+    </div>
+
   );
 }
 

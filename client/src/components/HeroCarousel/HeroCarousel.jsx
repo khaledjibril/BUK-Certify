@@ -10,9 +10,9 @@ function HeroCarousel() {
   const slides = [
     { id: 1, image: '/images/buk1.jpg', title: 'BUK Campus', description: 'Beautiful campus of Bayero University Kano' },
     { id: 2, image: '/images/buk2.jpg', title: 'BUK Building', description: 'Another view of BUK campus' },
-    { id: 3, image: '/images/buk4.jpg', title: 'BUK Campus View', description: 'Scenic view of Bayero University Kano' },
+    { id: 3, image: '/images/buklibrary.jpg', title: 'BUK Campus View', description: 'Scenic view of Bayero University Kano' },
     { id: 4, image: '/images/bukSenate.jpg', title: 'BUK Architecture', description: 'Modern architecture of BUK' },
-    { id: 5, image: '/images/buk3.jpg', title: 'BUK Architecture', description: 'Modern architecture of BUK' },
+    { id: 5, image: '/images/buk1.jpg', title: 'BUK Architecture', description: 'Modern architecture of BUK' },
     { id: 6, image: '/images/buklibrary.jpg', title: 'BUK Environment', description: 'Academic environment of BUK' },
   ];
 

@@ -1,0 +1,14 @@
+.topbar {
+height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid #eef2f6; background:#fff;
+}
+
+
+.left { font-size:14px; color:#0b1b3a; }
+.right { display:flex; align-items:center; gap:12px; }
+
+
+.searchWrap { background:#f6f8fb; padding:6px; border-radius:8px; }
+.search { border:0; outline:0; background:transparent; width:280px; padding:6px 8px; }
+
+
+@media (max-width:900px) { .search { width:120px; } }

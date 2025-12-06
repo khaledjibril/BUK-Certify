@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroCarousel from '../../components/HeroCarousel/HeroCarousel';
-
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ function LandingPage() {
 
   return (
     <div className="landing-page">
+            <Navbar />
+      
       {/* Hero Section */}
       <HeroCarousel />
 
@@ -203,6 +206,8 @@ function LandingPage() {
           </button>
         </div>
       </section>
+            <Footer />
+      
     </div>
   );
 }

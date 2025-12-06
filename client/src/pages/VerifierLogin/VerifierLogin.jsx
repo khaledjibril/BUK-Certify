@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 import './VerifierLogin.css';
 
 function VerifierLogin() {
@@ -92,6 +94,9 @@ function VerifierLogin() {
   };
 
   return (
+    <div className="verifier">
+            <Navbar />
+
     <div className="verifier-login-page">
       <div className="verifier-login-container">
         <div className="verifier-login-header">
@@ -252,6 +257,9 @@ function VerifierLogin() {
         </div>
       </div>
     </div>
+    <Footer />
+        </div>
+
   );
 }
 

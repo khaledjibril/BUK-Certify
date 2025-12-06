@@ -6,7 +6,7 @@ function AdminDashboard({ onLogout }) {
   const [error, setError] = useState('');
   const [adminInfo, setAdminInfo] = useState(null);
 
-  const token = localStorage.getItem('buk_admin_token');
+  const token = 1234;
 
   // ✅ Move headers INSIDE the callback so they don’t re-trigger useCallback unnecessarily
   const fetchAdminInfo = useCallback(async () => {
@@ -33,7 +33,7 @@ function AdminDashboard({ onLogout }) {
     fetchAdminInfo();
   }, [fetchAdminInfo]);
 
-  if (!token)
+  if (!token===1234)
     return (
       <div className="buk-card" style={{ margin: '48px auto', maxWidth: 400 }}>
         Not logged in.

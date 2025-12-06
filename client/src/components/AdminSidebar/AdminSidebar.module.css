@@ -1,0 +1,59 @@
+.sidebar {
+width: 260px;
+background: #ffffff;
+border-right: 1px solid #e6e9ef;
+display: flex;
+flex-direction: column;
+padding: 20px;
+}
+
+
+.brand {
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom: 20px;
+cursor: pointer;
+}
+
+
+.logo {
+width:40px; height:40px; border-radius:8px; background: linear-gradient(135deg,#0b6ef6,#0b9df6);
+}
+
+
+.title { font-weight:700; color:#0b1b3a; }
+
+
+.nav { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+
+
+.navItem {
+padding:10px 12px;
+border-radius:8px;
+color:#475569;
+text-decoration:none;
+font-weight:500;
+}
+
+
+.navItem:hover { background:#f1f5f9; color:#0b1b3a; }
+
+
+.active { background:#0b6ef6; color:#fff; box-shadow:0 4px 12px rgba(11,110,246,0.12); }
+
+
+.footerActions { margin-top:auto; }
+
+
+.logoutBtn {
+width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e9ef; background:#fff; cursor:pointer; font-weight:600; color:#0b1b3a;
+}
+
+
+/* responsive */
+@media (max-width:900px) {
+.sidebar { width: 72px; padding:12px; }
+.title { display:none; }
+.navItem { padding:8px; font-size:12px; }
+}
