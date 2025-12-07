@@ -18,6 +18,7 @@ export default function Certificates({ userRole = "admin" }) {
   const fileInputRef = useRef(null);
   const [toast, setToast] = useState(null);
 
+  
   const totals = useMemo(() => {
     const total = certs.length;
     const active = certs.filter((c) => c.status === "Active").length;
