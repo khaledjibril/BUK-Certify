@@ -7,6 +7,8 @@ import VerifierLogin from './pages/VerifierLogin/VerifierLogin';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminLayout from './layouts/AdminLayout'
 import './App.css';
+import VerifierDashboard from './components/Dashboard/VerifierDashboard';
+
 
 function App() {
   return (
@@ -26,6 +28,13 @@ function App() {
                   <AdminLayout />
             }
           />
+                    <Route
+            path="/verifier/dashboard"
+            element={
+                <VerifierDashboard />
+            }
+          />
+
           {/* --- Catch-all Route --- */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
