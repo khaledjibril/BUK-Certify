@@ -25,6 +25,19 @@ export default function Overview() {
       trend: -5,
       sparkline: [50, 48, 45, 42, 40, 38, 36],
     },
+        {
+      title: 'Approved Request',
+      value: 236,
+      icon: <CheckCircle size={24} />,
+      trend: -5,
+      sparkline: [50, 48, 45, 42, 40, 38, 36],
+    },    {
+      title: 'Rejected Request',
+      value: 406,
+      icon: <CheckCircle size={24} />,
+      trend: -9,
+      sparkline: [50, 48, 45, 42, 40, 38, 36],
+    },
     {
       title: 'Certificates Issued',
       value: 892,
@@ -35,6 +48,13 @@ export default function Overview() {
     {
       title: 'QR Scans Today',
       value: 214,
+      icon: <QrCode size={24} />,
+      trend: 20,
+      sparkline: [180, 190, 200, 205, 210, 212, 214],
+    },
+        {
+      title: 'Total Certificate Scans',
+      value: 314,
       icon: <QrCode size={24} />,
       trend: 20,
       sparkline: [180, 190, 200, 205, 210, 212, 214],
