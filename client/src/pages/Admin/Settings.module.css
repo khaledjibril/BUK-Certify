@@ -1,0 +1,62 @@
+.container {
+  padding: 32px;
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 28px;
+}
+
+.sectionCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+}
+
+.sectionCard:hover {
+  transform: translateY(-2px);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sectionHeader h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sectionContent {
+  padding: 16px 24px;
+  color: #4b5563;
+}
+
+.button {
+  margin-top: 12px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}

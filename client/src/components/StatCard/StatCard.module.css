@@ -1,80 +1,87 @@
-/* StatCard.module.css */
 .card {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  padding: 24px 20px;
-  background: linear-gradient(145deg, #ffffff, #f4f6fc);
-  box-shadow: 8px 8px 20px rgba(16, 24, 40, 0.08),
-              -8px -8px 20px rgba(255, 255, 255, 0.6);
+  padding: 28px 24px;
+  background: #ffffff;
+  border-top: 4px solid;
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.08),
+              0 2px 4px rgba(16, 24, 40, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 12px 12px 28px rgba(16, 24, 40, 0.15),
-              -12px -12px 28px rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
 }
 
-.content {
-  position: relative;
-  z-index: 2;
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.12),
+              0 4px 8px rgba(16, 24, 40, 0.06);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  font-size: 24px;
 }
 
 .title {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: #667085;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .value {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 800;
   color: #0b1b3a;
-  margin-top: 10px;
+  margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 12px;
   color: #94a3b8;
-  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.trend {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.sparkline {
+  display: flex;
+  gap: 2px;
+  height: 32px;
+  align-items: flex-end;
+}
+
+.sparkBar {
+  flex: 1;
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
 /* Decorative gradient blob */
 .decorativeBlob {
   position: absolute;
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle at 30% 30%, #4f46e5 0%, #6366f1 70%);
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
-  top: -60px;
-  right: -60px;
-  opacity: 0.25;
-  filter: blur(40px);
-  z-index: 1;
+  top: -50px;
+  right: -50px;
+  opacity: 0.15;
+  filter: blur(36px);
+  z-index: 0;
   transition: transform 0.5s ease;
 }
 .card:hover .decorativeBlob {
-  transform: scale(1.2) rotate(10deg);
-}
-
-/* Small sparkle accent */
-.decorativeSpark {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: #facc15;
-  border-radius: 50%;
-  top: 20px;
-  left: -10px;
-  box-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
-  animation: sparkle 2s infinite alternate;
-  z-index: 2;
-}
-
-@keyframes sparkle {
-  0% { transform: translateY(0) scale(1); opacity: 0.6; }
-  50% { transform: translateY(-6px) scale(1.2); opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  transform: scale(1.15) rotate(8deg);
 }
