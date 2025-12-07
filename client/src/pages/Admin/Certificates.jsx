@@ -18,7 +18,6 @@ export default function Certificates({ userRole = "admin" }) {
   const fileInputRef = useRef(null);
   const [toast, setToast] = useState(null);
 
-  
   const totals = useMemo(() => {
     const total = certs.length;
     const active = certs.filter((c) => c.status === "Active").length;
@@ -190,7 +189,6 @@ export default function Certificates({ userRole = "admin" }) {
             </div>
           </form>
         </div>
-
         <div className={styles.filterPanel}>
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search student or reg no" className={styles.input} />
           <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className={styles.input}>
