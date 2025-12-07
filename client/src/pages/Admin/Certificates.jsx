@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Download, Trash2, Eye, FilePlus } from "lucide-react";
-import { QRCodeSVG } from 'qrcode.react';
-import styles from './Certificates.module.css';
+import { QRCodeSVG } from "qrcode.react";
+import styles from "./Certificates.module.css";
 
 export default function Certificates({ userRole = "admin" }) {
   const [certs, setCerts] = useState([]);
@@ -15,8 +15,10 @@ export default function Certificates({ userRole = "admin" }) {
   const [preview, setPreview] = useState(null);
   const [showAudit, setShowAudit] = useState(false);
   const [auditLog, setAuditLog] = useState([]);
-  const fileInputRef = useRef(null);
   const [toast, setToast] = useState(null);
+  const [confirmAction, setConfirmAction] = useState(null); // For confirmation modal
+
+  const fileInputRef = useRef(null);
 
   const totals = useMemo(() => {
     const total = certs.length;
@@ -106,36 +108,54 @@ export default function Certificates({ userRole = "admin" }) {
     setSelected(new Set(ids));
   };
 
+  // Bulk Delete (with modal)
   const bulkDelete = () => {
     if (userRole !== "super" && userRole !== "admin") return showToast("You don't have permission to delete");
     if (!selected.size) return showToast("No certificates selected");
-    if (!confirm(`Delete ${selected.size} certificate(s)?`)) return;
-    setCerts((s) => s.filter((c) => !selected.has(c.id)));
-    addAudit("bulk_delete", { ids: Array.from(selected) });
-    setSelected(new Set());
-    showToast("Deleted selected certificates");
+
+    setConfirmAction({
+      type: "bulk",
+      message: `Delete ${selected.size} certificate(s)?`,
+      onConfirm: () => {
+        setCerts((s) => s.filter((c) => !selected.has(c.id)));
+        addAudit("bulk_delete", { ids: Array.from(selected) });
+        setSelected(new Set());
+        showToast("Deleted selected certificates");
+        setConfirmAction(null);
+      },
+    });
   };
 
   const bulkRevoke = () => {
     if (!selected.size) return showToast("No certificates selected");
-    setCerts((s) => s.map((c) => (selected.has(c.id) ? { ...c, status: "Revoked" } : c)));
-    addAudit("bulk_revoke", { ids: Array.from(selected) });
-    setSelected(new Set());
-    showToast("Revoked selected certificates");
+
+    setConfirmAction({
+      type: "bulkRevoke",
+      message: `Revoke ${selected.size} certificate(s)?`,
+      onConfirm: () => {
+        setCerts((s) => s.map((c) => (selected.has(c.id) ? { ...c, status: "Revoked" } : c)));
+        addAudit("bulk_revoke", { ids: Array.from(selected) });
+        setSelected(new Set());
+        showToast("Revoked selected certificates");
+        setConfirmAction(null);
+      },
+    });
   };
 
   const visibleCerts = useMemo(() => {
-    return certs.filter((c) => {
-      if (search) {
-        const s = search.toLowerCase();
-        if (!(c.studentName.toLowerCase().includes(s) || c.regNumber.toLowerCase().includes(s) || c.course.toLowerCase().includes(s))) return false;
-      }
-      if (filterCourse !== "all" && c.course !== filterCourse) return false;
-      if (filterStatus !== "all" && c.status !== filterStatus) return false;
-      if (dateFrom && new Date(c.uploadedAt) < new Date(dateFrom)) return false;
-      if (dateTo && new Date(c.uploadedAt) > new Date(dateTo)) return false;
-      return true;
-    }).slice(0, 500);
+    return certs
+      .filter((c) => {
+        if (search) {
+          const s = search.toLowerCase();
+          if (!(c.studentName.toLowerCase().includes(s) || c.regNumber.toLowerCase().includes(s) || c.course.toLowerCase().includes(s))) return false;
+        }
+        if (filterCourse !== "all" && c.course !== filterCourse) return false;
+        if (filterStatus !== "all" && c.status !== filterStatus) return false;
+        if (dateFrom && new Date(c.uploadedAt) < new Date(dateFrom)) return false;
+        if (dateTo && new Date(c.uploadedAt) > new Date(dateTo)) return false;
+        return true;
+      })
+      .slice(0, 500);
   }, [certs, search, filterCourse, filterStatus, dateFrom, dateTo]);
 
   const openPreview = (cert) => {
@@ -163,6 +183,7 @@ export default function Certificates({ userRole = "admin" }) {
 
   return (
     <div className={styles.container}>
+      {/* KPI Cards */}
       <div className={styles.kpiGrid}>
         <KpiCard title="Total Certificates" value={totals.total} />
         <KpiCard title="Active" value={totals.active} positive />
@@ -170,6 +191,7 @@ export default function Certificates({ userRole = "admin" }) {
         <KpiCard title="This Month" value={totals.thisMonth} />
       </div>
 
+      {/* Upload & Filter */}
       <div className={styles.flexRow}>
         <div className={styles.uploadPanel}>
           <div className={styles.uploadHeader}>
@@ -189,6 +211,7 @@ export default function Certificates({ userRole = "admin" }) {
             </div>
           </form>
         </div>
+
         <div className={styles.filterPanel}>
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search student or reg no" className={styles.input} />
           <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className={styles.input}>
@@ -209,9 +232,12 @@ export default function Certificates({ userRole = "admin" }) {
             <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className={styles.input} />
           </div>
           <button onClick={() => setShowAudit(true)} className={styles.btnOutline}>Audit Log</button>
+          <button onClick={bulkDelete} className={styles.btnRed} style={{marginTop: '8px'}}>Delete Selected</button>
+          <button onClick={bulkRevoke} className={styles.btnOutline} style={{marginTop: '8px'}}>Revoke Selected</button>
         </div>
       </div>
 
+      {/* Certificates Table */}
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -220,20 +246,34 @@ export default function Certificates({ userRole = "admin" }) {
             </tr>
           </thead>
           <tbody>
-            {visibleCerts.length===0 && <tr><td colSpan={8}>No certificates match your search/filters.</td></tr>}
+            {visibleCerts.length === 0 && <tr><td colSpan={8}>No certificates match your search/filters.</td></tr>}
             {visibleCerts.map((c, idx) => (
               <tr key={c.id} className={styles.row}>
                 <td><input type="checkbox" checked={selected.has(c.id)} onChange={() => toggleSelect(c.id)} /></td>
                 <td>{c.studentName}<div className={styles.fileName}>{c.fileName}</div></td>
-                <td>{c.regNumber}</td><td>{c.course}</td>
-                <td><QRCodeSVG  value={c.qr} size={64} /></td>
-                <td className={c.status==='Active'?styles.activeBadge:styles.revokedBadge}>{c.status}</td>
+                <td>{c.regNumber}</td>
+                <td>{c.course}</td>
+                <td><QRCodeSVG value={c.qr} size={64} /></td>
+                <td className={c.status === "Active" ? styles.activeBadge : styles.revokedBadge}>{c.status}</td>
                 <td>{new Date(c.uploadedAt).toLocaleString()}</td>
                 <td>
                   <button onClick={() => openPreview(c)} className={styles.iconBtn}><Eye size={14}/></button>
                   <button onClick={() => downloadCert(c)} className={styles.iconBtn}><Download size={14}/></button>
-                  {userRole!=='verifier' && <button onClick={() => toggleStatus(c.id)} className={styles.iconBtn}>{c.status==='Active'?'Revoke':'Activate'}</button>}
-                  {userRole==='super' && <button onClick={() => { if(confirm('Delete this certificate?')) { setCerts((s)=>s.filter(x=>x.id!==c.id)); addAudit('delete', c); showToast('Deleted'); } }} className={styles.iconBtnRed}><Trash2 size={14}/></button>}
+                  {userRole !== "verifier" && <button onClick={() => toggleStatus(c.id)} className={styles.iconBtn}>{c.status === "Active" ? "Revoke" : "Activate"}</button>}
+                  {userRole === "super" && <button
+                    onClick={() => setConfirmAction({
+                      type: "single",
+                      cert: c,
+                      message: "Delete this certificate?",
+                      onConfirm: () => {
+                        setCerts(s => s.filter(x => x.id !== c.id));
+                        addAudit("delete", c);
+                        showToast("Deleted");
+                        setConfirmAction(null);
+                      }
+                    })}
+                    className={styles.iconBtnRed}
+                  ><Trash2 size={14}/></button>}
                 </td>
               </tr>
             ))}
@@ -241,35 +281,55 @@ export default function Certificates({ userRole = "admin" }) {
         </table>
       </div>
 
+      {/* Preview Modal */}
       {preview && <Modal onClose={() => setPreview(null)}>
         <div className={styles.modalContent}>
           <h3>{preview.cert.studentName} - {preview.cert.fileName}</h3>
-          {preview.type==='pdf'?<iframe src={preview.url} className={styles.pdfIframe}></iframe>:<img src={preview.url} alt="preview" className={styles.imgPreview}/>}
-          <QRCodeSVG  value={preview.cert.qr} size={96} />
+          {preview.type === "pdf"
+            ? <iframe src={preview.url} className={styles.pdfIframe}></iframe>
+            : <img src={preview.url} alt="preview" className={styles.imgPreview} />}
+          <QRCodeSVG value={preview.cert.qr} size={96} />
         </div>
       </Modal>}
 
+      {/* Audit Modal */}
       {showAudit && <Modal onClose={() => setShowAudit(false)}>
         <div className={styles.modalContent}>
           <h3>Audit Log</h3>
-          {auditLog.length===0?'No audit records yet.':auditLog.map(a=><div key={a.id}>{a.action} by {a.actor}</div>)}
+          {auditLog.length === 0 ? 'No audit records yet.' : auditLog.map(a => <div key={a.id}>{a.action} by {a.actor}</div>)}
         </div>
       </Modal>}
 
+      {/* Toast */}
       {toast && <div className={styles.toast}>{toast}</div>}
+
+      {/* Confirm Modal */}
+      {confirmAction && (
+        <Modal onClose={() => setConfirmAction(null)}>
+          <div className={styles.modalContent}>
+            <p>{confirmAction.message}</p>
+            <div className={styles.modalActions} style={{display:'flex', gap:'8px', marginTop:'12px'}}>
+              <button className={styles.btn} onClick={confirmAction.onConfirm}>Yes</button>
+              <button className={styles.btnOutline} onClick={() => setConfirmAction(null)}>Cancel</button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
 
+// KPI Card Component
 function KpiCard({ title, value, positive, negative }) {
   return <div className={styles.kpiCard}>{title}: {value}</div>;
 }
 
+// Generic Modal
 function Modal({ children, onClose }) {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalBg} onClick={onClose}></div>
-      <motion.div initial={{scale:0.98,opacity:0}} animate={{scale:1,opacity:1}} exit={{scale:0.98,opacity:0}} className={styles.modalBox}>
+      <motion.div initial={{ scale: 0.98, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.98, opacity: 0 }} className={styles.modalBox}>
         <button className={styles.modalClose} onClick={onClose}>Close</button>
         {children}
       </motion.div>
