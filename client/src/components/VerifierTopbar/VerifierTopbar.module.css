@@ -1,0 +1,70 @@
+/* src/components/VerifierTopbar/VerifierTopbarB.module.css */
+.topbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #eef2f6;
+  background: #fff;
+  transition: background 0.3s;
+}
+
+.dark .topbar {
+  background: #1f1f1f;
+}
+
+.left {
+  font-size: 14px;
+  color: #0b1b3a;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebarToggle {
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search {
+  width: 280px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dark-mode {
+  display: none;
+}
+
+[data-theme="dark"] .dark-mode {
+  display: inline;
+}
+
+[data-theme="dark"] .light-mode {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .search {
+    width: 140px;
+  }
+}

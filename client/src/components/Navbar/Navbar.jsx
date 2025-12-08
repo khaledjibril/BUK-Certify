@@ -25,7 +25,7 @@ const profileRef = useRef(null);
 
 // DEMO AUTH DATA (replace with real auth later)
 const isAuthenticated = true;
-const userRole = "admin"; // "admin" | "verifier" | "student"
+const userRole = "verifier"; // "admin" | "verifier" | "student"
 const user = { name: "Khaled" };
 
 const logout = () => {
