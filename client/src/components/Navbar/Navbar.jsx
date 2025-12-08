@@ -8,129 +8,137 @@ function Navbar({ adminLink }) {
   const burgerRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleBurgerClick = () => setMenuOpen(!menuOpen);
+  const handleBurgerClick = (e) => {
+    e.stopPropagation(); 
+    setMenuOpen(prev => !prev);
+  };
+
   const closeMenu = () => setMenuOpen(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+const [darkMode, setDarkMode] = useState(false);
+const [profileOpen, setProfileOpen] = useState(false);
 
-  // ✅ Close menu when clicking outside
+const profileRef = useRef(null);
+
+// DEMO AUTH DATA (replace with real auth later)
+const isAuthenticated = true;
+const userRole = "admin"; // "admin" | "verifier" | "student"
+const user = { name: "Khaled" };
+
+const logout = () => {
+  alert("Logged out");
+};
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         menuRef.current &&
+        burgerRef.current &&
         !menuRef.current.contains(event.target) &&
         !burgerRef.current.contains(event.target)
       ) {
         setMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
   return (
-    <nav className="buk-navbar">
-      {/* Logo (now links to home) */}
-      <div
-        className="buk-navbar-logo"
-        onClick={() => {
-          navigate('/');
-          scrollToTop();
-          closeMenu();
-        }}
-      >
-        <div className="buk-logo-container">
-          <img
-            src="/images/buklogo.webp"
-            alt="BUK Certificate Verification System Logo"
-            className="buk-logo-image"
-            onError={(e) => {
-              e.target.style.display = 'none';
-              e.target.nextSibling.style.display = 'flex';
-            }}
-          />
-          <div className="buk-logo-placeholder" style={{ display: 'none' }}>
-            <span className="buk-initials">BUK</span>
+  <nav className={`bukx-navbar ${darkMode ? 'dark' : ''}`}>
+    
+    {/* ================= BRAND ================= */}
+    <div
+      className="bukx-brand"
+      onClick={() => {
+        navigate('/');
+        scrollToTop();
+        closeMenu();
+      }}
+    >
+      <img src="/images/buklogo.webp" alt="BUK Logo" className="bukx-logo" />
+      <span className="bukx-title">BUK Certify</span>
+    </div>
+
+    {/* ================= DESKTOP LINKS ================= */}
+    <ul className={`bukx-links ${menuOpen ? 'open' : ''}`} ref={menuRef}>      
+      
+      {/* ===== MEGA MENU ===== */}
+      <li className="mega">
+        <span className="mega-title">Services ▾</span>
+        <div className="mega-menu">
+          <div>
+            <h4>Verification</h4>
+            <NavLink to="/verifier/login">Verifier Login</NavLink>
+            <NavLink to="/verify">Verify Certificate</NavLink>
+          </div>
+          <div>
+            <h4>Administration</h4>
+            {adminLink && <NavLink to="/admin/login">Admin Login</NavLink>}
+            <NavLink to="/security">Security Logs</NavLink>
+          </div>
+          <div>
+            <h4>University</h4>
+            <NavLink to="/about">About System</NavLink>
+            <NavLink to="/help">Help Center</NavLink>
           </div>
         </div>
-        <span className="buk-logo-text">BUK Certify</span>
-      </div>
+      </li>
 
-      {/* Burger Menu */}
-      <button
-        className={`burger${menuOpen ? ' open' : ''}`}s
-        onClick={handleBurgerClick}
-        aria-label="Toggle menu"
-        ref={burgerRef}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
+      <li><NavLink to="/" onClick={closeMenu}>Home</NavLink></li>
+      <li><NavLink to="/about" onClick={closeMenu}>About</NavLink></li>
 
-      {/* Navigation Links */}
-      <ul
-        className={`buk-navbar-links${menuOpen ? ' show' : ''}`}
-        ref={menuRef}
-      >
-        <li>
-          <NavLink
-            to="/"
-            className={({ isActive }) => (isActive ? 'active' : '')}
-            onClick={() => {
-              scrollToTop();
-              closeMenu();
-            }}
-          >
-            Home
-          </NavLink>
+      {/* ===== ROLE AWARE DASHBOARD ===== */}
+      {userRole === 'admin' && (
+        <li><NavLink to="/admin/dashboard">Admin Dashboard</NavLink></li>
+      )}
+      {userRole === 'verifier' && (
+        <li><NavLink to="/verifier/dashboard">Verifier Dashboard</NavLink></li>
+      )}
+
+      {/* ===== USER PROFILE ===== */}
+      {isAuthenticated && (
+        <li className="profile" ref={profileRef}>
+          <span onClick={() => setProfileOpen(!profileOpen)} className="profile-trigger">
+            {user.name} ▾
+          </span>
+
+          {profileOpen && (
+            <div className="profile-menu">
+              <NavLink to="/profile">My Profile</NavLink>
+              <NavLink to="/settings">Settings</NavLink>
+              <span onClick={logout}>Logout</span>
+            </div>
+          )}
         </li>
+      )}
 
-        <li>
-          <NavLink
-            to="/about"
-            className={({ isActive }) => (isActive ? 'active' : '')}
-            onClick={() => {
-              scrollToTop();
-              closeMenu();
-            }}
-          >
-            About
-          </NavLink>
-        </li>
+      {/* ===== DARK MODE TOGGLE ===== */}
+      <li>
+        <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? '☀️' : '🌙'}
+        </button>
+      </li>
+    </ul>
 
-        <li>
-          <NavLink
-            to="/verifier/login"
-            className={({ isActive }) => (isActive ? 'active' : '')}
-            onClick={() => {
-              scrollToTop();
-              closeMenu();
-            }}
-          >
-            Verifier
-          </NavLink>
-        </li>
+    {/* ================= MOBILE TOGGLE ================= */}
+    <button
+      className={`bukx-toggle ${menuOpen ? 'active' : ''}`}
+      onClick={handleBurgerClick}
+      ref={burgerRef}
+      aria-label="Toggle menu"
+    >
+      <span />
+      <span />
+      <span />
+    </button>
+  </nav>
+);
 
-        {adminLink && (
-          <li>
-            <NavLink
-              to="/admin/login"
-              className={({ isActive }) => (isActive ? 'active' : '')}
-              onClick={() => {
-                scrollToTop();
-                closeMenu();
-              }}
-            >
-              Admin
-            </NavLink>
-          </li>
-        )}
-      </ul>
-    </nav>
-  );
 }
 
 export default Navbar;

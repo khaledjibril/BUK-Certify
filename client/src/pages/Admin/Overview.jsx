@@ -12,8 +12,10 @@ export default function Overview() {
   const [dateRange, setDateRange] = useState('7d');
   const [darkMode, setDarkMode] = useState(false);
   const [recentActivities, setRecentActivities] = useState([
-    { type: 'user', desc: 'New user registration submitted — Amina Yusuf', time: '2 mins ago' },
-    { type: 'cert', desc: 'Certificate verified — Matric: 18/ENG/345', time: '10 mins ago' },
+    { type: 'user', desc: 'New user registration submitted — Amina Yusuf', time: '7 mins ago' },
+    { type: 'user', desc: 'New user registration submitted — Joshua Daniel', time: '12 mins ago' },
+    { type: 'user', desc: 'New user registration submitted — Abdulsamad Yahya', time: '20 mins ago' },
+    { type: 'cert', desc: 'Certificate verified — Matric: 18/ENG/345', time: '43 mins ago' },
     { type: 'qr', desc: 'QR scan from external device — IP: 196.6.12.11', time: '1 hour ago' },
   ]);
 
