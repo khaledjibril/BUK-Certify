@@ -10,11 +10,11 @@ import VerifierLayout from './layouts/VerifierLayout'
 import './App.css';
 import VerifierDashboard from './components/Dashboard/VerifierDashboard';
 import Dashboard from "./pages/Verifier/Dashboard";
-// import VerifyCertificate from "./pages/Verifier/VerifyCertificate";
-// import History from "./pages/Verifier/History";
-// import QRScan from "./pages/Verifier/QRscan";
-// import Notifications from "./pages/Verifier/Notifications";
-// import Settings from "./pages/Verifier/Settings";
+import VerifyCertificate from "./pages/Verifier/VerifyCertificate";
+import History from "./pages/Verifier/History";
+import QRScan from "./pages/Verifier/QRscan";
+import Notifications from "./pages/Verifier/Notifications";
+import Settings from "./pages/Verifier/Settings";
 
 function App() {
   return (
@@ -34,14 +34,9 @@ function App() {
                   <AdminLayout />
             }
           />
-                    <Route
-            path="/verifier/dashboard"
-            element={
-                <Dashboard />
-            }
-          />
+
                 {/* Verifier Dashboard with nested routes */}
-        {/* <Route
+        <Route
           path="/verifier/dashboard/*"
           element={
             <VerifierLayout>
@@ -55,7 +50,7 @@ function App() {
               </Routes>
             </VerifierLayout>
           }
-        /> */}
+        />
 
           {/* --- Catch-all Route --- */}
           <Route path="*" element={<Navigate to="/" />} />
