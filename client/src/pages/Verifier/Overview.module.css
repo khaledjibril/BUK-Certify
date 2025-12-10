@@ -1,0 +1,220 @@
+/* ================= ROOT DASHBOARD ================= */
+.dashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ================= MAIN LAYOUT ================= */
+.main {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
+
+/* ================= STAT CARDS ================= */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.statCard {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+}
+
+.statTitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-top: 0.4rem;
+  color: #0f172a;
+}
+
+/* ================= VERIFY ZONE ================= */
+.verifyGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.verifyCard {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.verifyRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.verifyInput {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #cbd5f5;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.verifyInput:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.verifyButton {
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.7rem 1.6rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.verifyButton:hover {
+  background-color: #4338ca;
+}
+
+.resultValid,
+.resultInvalid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.resultValid {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.resultInvalid {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* ================= CHART ================= */
+.chartCard {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  height: 100%;
+}
+
+/* ================= TITLES ================= */
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* ================= HISTORY ================= */
+.historyCard {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  padding-bottom: 0.7rem;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  font-weight: 600;
+}
+
+.table td {
+  padding: 0.85rem 0;
+  color: #0f172a;
+}
+
+.idCell {
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.statusValid {
+  background-color: #bbf7d0;
+  color: #14532d;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.statusInvalid {
+  background-color: #fecaca;
+  color: #7f1d1d;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .verifyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .verifyRow {
+    flex-direction: column;
+  }
+
+  .verifyButton {
+    width: 100%;
+  }
+}

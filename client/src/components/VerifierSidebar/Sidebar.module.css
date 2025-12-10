@@ -1,20 +1,101 @@
+.wrapper {
+  display: flex;
+  height: 100vh; /* full viewport height */
+}
+
 .sidebar {
-  width: 6rem;
-  background-color: #0f172a; /* slate-950 */
+  position: fixed; /* fix sidebar */
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 7rem; /* updated width */
+  background-color: #0f172a;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1.5rem 0;
   gap: 2rem;
+  transition: width 0.3s ease;
+  z-index: 100; /* above main content */
 }
 
+/* Mini sidebar */
+.sidebar[data-mini="true"] {
+  width: 4rem; /* mini mode width */
+}
+
+/* Logo */
 .logo {
   font-size: 1.125rem;
   font-weight: bold;
-  color: #818cf8; /* indigo-400 */
+  color: #818cf8;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
+/* Navigation */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: #1e293b;
+  color: #818cf8;
+}
+
+.navItemActive {
+  background-color: #6366f1;
+  color: white;
+}
+
+/* Hide label in mini mode */
+.sidebar[data-mini="true"] .navItem span {
+  display: none;
+}
+
+/* Bottom logout */
 .bottom {
   margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+.sidebar[data-mini="true"] .logoutButton span {
+  display: none;
 }
