@@ -1,0 +1,14 @@
+.navIcon {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.active {
+  background-color: #4f46e5; /* indigo-600 */
+}
+
+.hover:hover {
+  background-color: #1e293b; /* slate-800 */
+}

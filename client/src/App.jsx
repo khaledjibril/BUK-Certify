@@ -4,17 +4,13 @@ import ScrollToTop from './components/ScrollToTop';
 import LandingPage from './pages/LandingPage/LandingPage';
 import About from './pages/AboutPage/About';
 import VerifierLogin from './pages/VerifierLogin/VerifierLogin';
+import VerifierDashboard from "./pages/Verifier/VerifierDashboard";
+import Verify from './pages/Verify/Verify';
+import VerifyLayout from './layouts/VerifyLayout';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminLayout from './layouts/AdminLayout'
-import VerifierLayout from './layouts/VerifierLayout'
 import './App.css';
-import VerifierDashboard from './components/Dashboard/VerifierDashboard';
-import Dashboard from "./pages/Verifier/Dashboard";
-import VerifyCertificate from "./pages/Verifier/VerifyCertificate";
-import History from "./pages/Verifier/History";
-import QRScan from "./pages/Verifier/QRscan";
-import Notifications from "./pages/Verifier/Notifications";
-import Settings from "./pages/Verifier/Settings";
+
 
 function App() {
   return (
@@ -34,23 +30,18 @@ function App() {
                   <AdminLayout />
             }
           />
-
-                {/* Verifier Dashboard with nested routes */}
-        <Route
-          path="/verifier/dashboard/*"
-          element={
-            <VerifierLayout>
-              <Routes>
-                <Route path="overview" element={<Dashboard />} />
-                <Route path="verify" element={<VerifyCertificate />} />
-                <Route path="history" element={<History />} />
-                <Route path="qr" element={<QRScan />} />
-                <Route path="notifications" element={<Notifications />} />
-                <Route path="settings" element={<Settings />} />
-              </Routes>
-            </VerifierLayout>
-          }
-        />
+          {/* --- Verifier Dashboard --- */}
+          <Route
+            path="/verifier/dashboard"
+            element={
+                  <VerifierDashboard />
+            }
+          />
+      <VerifyLayout>
+        <Routes>
+          <Route path="verify" element={<Verify />} />
+       </Routes>
+      </VerifyLayout>
 
           {/* --- Catch-all Route --- */}
           <Route path="*" element={<Navigate to="/" />} />

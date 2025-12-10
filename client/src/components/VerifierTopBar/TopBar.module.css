@@ -1,0 +1,55 @@
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.topBar h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.topBar p {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background-color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.role {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.session {
+  font-size: 0.75rem;
+  color: #64748b;
+}
