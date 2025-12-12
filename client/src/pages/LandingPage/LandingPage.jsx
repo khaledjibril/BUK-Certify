@@ -25,7 +25,7 @@ function LandingPage() {
             Use this platform to verify the authenticity of certificates and qualifications issued by Bayero University Kano,
             and obtain a unique verification code for employers and institutions.
           </p>
-          <button className="primary-btn" onClick={() => handleNavigate('/verifier/login')}>
+          <button className="primary-btn" onClick={() => handleNavigate('/verifier-login')}>
             Verify a BUK Certificate
           </button>
         </div>
@@ -38,22 +38,22 @@ function LandingPage() {
           <div className="steps-grid">
             <div className="step">
               <div className="step-number">1</div>
+              <h3>Register with BUK Certify</h3>
+              <p>
+                Users of the verification system need to register to verify candidate certificates. Once registered, a
+                confirmation email will be sent to your registered email address.
+              </p>
+              <button className="secondary-btn" onClick={() => handleNavigate('/verifier-register')}>
+                Register Now
+              </button>
+            </div>
+             <div className="step">
+              <div className="step-number">2</div>
               <h3>Obtain a Unique Verification Code</h3>
               <p>
                 BUK issues a unique verification code (UVC) for each certificate held on our secure system for graduates from
                 the university.
               </p>
-            </div>
-            <div className="step">
-              <div className="step-number">2</div>
-              <h3>Register on BUK Platform</h3>
-              <p>
-                Users of the verification system need to register to verify candidate certificates. Once registered, a
-                confirmation email will be sent to your registered email address.
-              </p>
-              <button className="secondary-btn" onClick={() => handleNavigate('/verifier/login')}>
-                Register Now
-              </button>
             </div>
             <div className="step">
               <div className="step-number">3</div>
@@ -201,7 +201,7 @@ function LandingPage() {
             Start your secure verification process with BUKcertify - the official platform for verifying Bayero University Kano
             qualifications
           </p>
-          <button className="primary-btn large" onClick={() => handleNavigate('/verifier/login')}>
+          <button className="primary-btn large" onClick={() => handleNavigate('/verifier-login')}>
             Start Verification with BUKcertify
           </button>
         </div>

@@ -11,13 +11,15 @@ import HistoryPage from "../pages/Verifier/History";
 
 import styles from "./VerifierLayout.module.css";
 
-export default function VerifyLayout() {
+export default function VerifierLayout() {
   const [isDark, setIsDark] = useState(() => {
     return localStorage.getItem("verify-theme") === "dark";
   });
 
   const [isMini, setIsMini] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // Apply dark mode to document
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
@@ -30,22 +32,28 @@ export default function VerifyLayout() {
 
   return (
     <div className={styles.layoutRoot}>
-      {/* FIXED SIDEBAR */}
-      <Sidebar isMini={isMini} setIsMini={setIsMini} />
+      {/* Sidebar */}
+      <Sidebar
+        isMini={isMini}
+        setIsMini={setIsMini}
+        isMobileOpen={isMobileOpen}
+        setIsMobileOpen={setIsMobileOpen}
+      />
 
-      {/* MAIN AREA */}
+      {/* Main Content */}
       <div
         className={styles.mainContent}
         data-mini={isMini ? "true" : "false"}
       >
-        {/* FIXED TOPBAR */}
-        <TopBar 
-          isDark={isDark} 
-          setIsDark={setIsDark} 
+        {/* Topbar */}
+        <TopBar
+          isDark={isDark}
+          setIsDark={setIsDark}
           isMini={isMini}
+          setIsMobileOpen={setIsMobileOpen}
         />
 
-        {/* SCROLLABLE CONTENT AREA */}
+        {/* Scrollable content */}
         <div className={styles.contentWrapper}>
           <div className={styles.pageContent}>
             <Routes>

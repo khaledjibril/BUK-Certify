@@ -65,10 +65,10 @@ function HeroCarousel() {
           ...your secure verification of academic qualifications issued by Bayero University, Kano!
         </p>
         <div className="hero-buttons">
-          <button className="primary-btn" onClick={() => navigate('/verifier/login')}>
+          <button className="primary-btn" onClick={() => navigate('/verifier-login')}>
             Verify a Certificate
           </button>
-          <button className="secondary-btn" onClick={() => navigate('/verifier/login')}>
+          <button className="secondary-btn" onClick={() => navigate('/verifier-login')}>
             Register as Verifier
           </button>
         </div>

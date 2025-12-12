@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   ShieldCheck,
@@ -17,6 +17,14 @@ import styles from "./Sidebar.module.css";
 export default function Sidebar({ isMini, setIsMini }) {
   const navigate = useNavigate();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Responsive watcher
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const basePath = "/verifier/dashboard";
 
@@ -32,45 +40,69 @@ export default function Sidebar({ isMini, setIsMini }) {
     { name: "History", path: `${basePath}/history`, icon: <History /> }
   ];
 
+  const isMobile = windowWidth <= 768;
+
   return (
     <>
-      {/* Mobile Toggle */}
-      <button
-        className={styles.mobileToggle}
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
-      >
-        {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
-      {/* Mobile Overlay */}
-      {isMobileOpen && (
-        <div className={styles.overlay} onClick={() => setIsMobileOpen(false)} />
+      {/* Mobile Toggle Button */}
+      {isMobile && (
+        <button
+          className={styles.mobileToggle}
+          aria-label="Toggle sidebar"
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+        >
+          {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       )}
 
+      {/* Sidebar Overlay */}
+      {isMobile && isMobileOpen && (
+        <div
+          className={styles.overlay}
+          onClick={() => setIsMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar */}
       <aside
         className={`${styles.sidebar} ${isMini ? styles.mini : ""} ${
           isMobileOpen ? styles.open : ""
         }`}
+        aria-label="Verifier Sidebar"
       >
         {/* Logo + Mini Toggle */}
         <div className={styles.brandWrapper}>
-        <div
+          <div
             className={styles.brand}
-            onClick={() => { navigate('/verifier/dashboard'); setIsMobileOpen(false); }}
+            onClick={() => {
+              navigate("/verifier/dashboard");
+              setIsMobileOpen(false);
+            }}
+            role="button"
+            tabIndex={0}
           >
-            <img src="/images/buklogo.webp" alt="BUK Admin Logo" className={styles.logo} />
-            {!isMini && <div className={styles.title}>BUK Certify</div>}
-          </div>          
-          <button
-            className={styles.miniToggle}
-            onClick={() => setIsMini(!isMini)}
-            title={isMini ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            <ChevronLeft
-              size={20}
-              className={`${styles.chevron} ${isMini ? styles.rotated : ""}`}
+            <img
+              src="/images/buklogo.webp"
+              alt="BUK Logo"
+              className={styles.logo}
             />
-          </button>
+            {!isMini && <div className={styles.title}>BUK Certify</div>}
+          </div>
+
+          {!isMobile && (
+            <button
+              className={styles.miniToggle}
+              onClick={() => setIsMini(!isMini)}
+              title={isMini ? "Expand Sidebar" : "Collapse Sidebar"}
+              aria-label="Toggle mini sidebar"
+            >
+              <ChevronLeft
+                size={20}
+                className={`${styles.chevron} ${isMini ? styles.rotated : ""}`}
+              />
+            </button>
+          )}
         </div>
 
         {/* Navigation */}
@@ -84,9 +116,11 @@ export default function Sidebar({ isMini, setIsMini }) {
                 isActive ? styles.navItemActive : styles.navItem
               }
               title={isMini ? item.name : ""}
+              aria-label={item.name}
             >
               <NavIcon icon={item.icon} label={item.name} isMini={isMini} />
-              {!isMini && <span className={styles.label}>{item.name}</span>}            
+              {!isMini && <span className={styles.label}>{item.name}</span>}
+              {isMini && <span className={styles.tooltip}>{item.name}</span>}
             </NavLink>
           ))}
         </nav>
@@ -97,9 +131,11 @@ export default function Sidebar({ isMini, setIsMini }) {
             className={styles.logoutButton}
             onClick={handleLogout}
             title={isMini ? "Logout" : ""}
+            aria-label="Logout"
           >
             <LogOut size={18} />
             {!isMini && <span>Logout</span>}
+            {isMini && <span className={styles.tooltip}>Logout</span>}
           </button>
         </div>
       </aside>

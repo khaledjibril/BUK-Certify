@@ -1,161 +1,84 @@
+/* =========================
+   BASE SIDEBAR
+========================= */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 240px;
-  background-color: #0f172a; /* slate-900 / 950 */
+  background-color: #0f172a;
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 1.5rem 0;
-  gap: 2rem;
-  z-index: 100;
-  transition: width 0.3s ease;
+  gap: 1.5rem;
+  z-index: 100; /* Above overlay */
+  box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
 }
 
 /* Mini Mode */
-.sidebar[data-mini="true"] {
-  width: 4rem; /* collapsed */
+.sidebar.mini {
+  width: 4rem;
 }
 
-/* =============================
-   LOGO
-   ============================= */
-.title {
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: #818cf8; /* indigo-400 */
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-.logo {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  margin-right: 2px;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+/* Mobile open state */
+.sidebar.open {
+  left: 0;
+  transition: left 0.3s ease;
 }
 
-
-/* Hide logo text in mini mode */
-.sidebar[data-mini="true"] .logo {
-  font-size: 0; /* visually disappears without layout jump */
-}
-
-/* =============================
-   NAVIGATION AREA
-   ============================= */
-.nav {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 0.1px;
-  margin-top: 0;
-}
-
-.navItem,.navItemActive{
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 5px 10px;
-  border-radius: 8px;
-  color: #cbd5e1; /* slate-300 */
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-
-/* Regular hover state */
-.navItem:hover {
-  background-color: #1e293b; /* slate-800 */
-  color: #818cf8; /* indigo-400 */
-}
-
-/* Active state */
-.navItemActive {
-  background-color: #6366f1; /* indigo-500 */
-  color: white;
-}
-.label {
-  flex: 1;
-}
-
-/* Hide labels in mini sidebar */
-.sidebar[data-mini="true"] .navItem span,
-.sidebar[data-mini="true"] .navItemActive span {
-  display: none;
-}
-
-/* Ensure icons stay centered in mini */
-.sidebar[data-mini="true"] .navItem,
-.sidebar[data-mini="true"] .navItemActive {
-  justify-content: center;
-}
-
-
-/* =============================
-   LOGOUT BUTTON
-   ============================= */
-.bottom {
-  margin-top: auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1rem;
-}
-
-.logoutButton {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  width: 90%;
-  padding: 0.75rem 1rem;
-
-  border: none;
-  background: none;
-  color: #cbd5e1;
-
-  cursor: pointer;
-  border-radius: 0.5rem;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.logoutButton:hover {
-  background-color: #1e293b;
-  color: #f8fafc;
-}
-
-/* Hide logout text in mini mode */
-.sidebar[data-mini="true"] .logoutButton span {
-  display: none;
-}
-/* ================================
-   MINI TOGGLE + BRAND WRAPPER
-================================ */
-
+/* =========================
+   LOGO & BRAND
+========================= */
 .brandWrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 10px;
+  padding: 0 1rem;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.brand:hover {
+  transform: scale(1.03);
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-right: 8px;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #818cf8;
+}
+
+.sidebar.mini .logo {
+  margin: 0 auto;
+}
+
+.sidebar.mini .title {
+  display: none;
+}
+
+/* Mini Toggle */
 .miniToggle {
   background: none;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content:space-between;
+  justify-content: center;
   color: #cbd5e1;
 }
 
@@ -167,29 +90,144 @@
   transform: rotate(180deg);
 }
 
-/* =================================
-   MOBILE BEHAVIOR 
-================================= */
+/* =========================
+   NAVIGATION
+========================= */
+.nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
 
+.navItem,
+.navItemActive {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover,
+.navItemActive:hover {
+  background-color: #1e293b;
+  color: #818cf8;
+}
+
+.navItemActive {
+  background-color: #6366f1;
+  color: white;
+}
+
+.label {
+  flex: 1;
+}
+
+/* Tooltips for mini mode */
+.tooltip {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #1e293b;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #f8fafc;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 200;
+}
+
+.navItem:hover .tooltip,
+.navItemActive:hover .tooltip,
+.logoutButton:hover .tooltip {
+  opacity: 1;
+}
+
+/* Hide labels in mini mode */
+.sidebar.mini .navItem span,
+.sidebar.mini .navItemActive span {
+  display: none;
+}
+
+.sidebar.mini .navItem,
+.sidebar.mini .navItemActive {
+  justify-content: center;
+}
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+.bottom {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+}
+
+.logoutButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+.sidebar.mini .logoutButton span {
+  display: none;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
 .mobileToggle {
   display: none;
   position: fixed;
   top: 16px;
   left: 16px;
-  z-index: 200;
+  z-index: 110; /* Above sidebar & overlay */
   background: none;
   border: none;
   color: white;
+  cursor: pointer;
 }
 
 .overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
-  z-index: 120;
+  z-index: 90; /* BELOW sidebar */
 }
 
-/* Hidden off-screen on mobile */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     left: -240px;
@@ -202,23 +240,8 @@
   }
 }
 
-/* =================================
-   MINI MODE (icon–only version)
-================================= */
-
-.sidebar.mini {
-  width: 4rem;
-}
-
-.sidebar.mini .logo {
-  font-size: 0;
-}
-
-.sidebar.mini .navItem,
-.sidebar.mini .navItemActive {
-  justify-content: center;
-}
-
-.sidebar.mini .logoutButton span {
-  display: none;
+@media (max-width: 480px) {
+  .sidebar {
+    width: 180px;
+  }
 }

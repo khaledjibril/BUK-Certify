@@ -73,18 +73,13 @@ const logout = () => {
         <div className="mega-menu">
           <div>
             <h4>Verification</h4>
-            <NavLink to="/verifier/login">Verifier Login</NavLink>
-            <NavLink to="/verify">Verify Certificate</NavLink>
-          </div>
-          <div>
-            <h4>Administration</h4>
-            {adminLink && <NavLink to="/admin/login">Admin Login</NavLink>}
-            <NavLink to="/security">Security Logs</NavLink>
+            <div><NavLink to="/verifier-login">Verifier Login</NavLink></div>
+            <div><NavLink to="/verifier/dashboard">Verify Certificate</NavLink></div>
           </div>
           <div>
             <h4>University</h4>
-            <NavLink to="/about">About System</NavLink>
-            <NavLink to="/help">Help Center</NavLink>
+            <div><NavLink to="/about">About System</NavLink></div>
+            <div><NavLink to="/help-desk">Help Desk</NavLink></div>
           </div>
         </div>
       </li>
@@ -110,7 +105,7 @@ const logout = () => {
           {profileOpen && (
             <div className="profile-menu">
               <NavLink to="/profile">My Profile</NavLink>
-              <NavLink to="/settings">Settings</NavLink>
+              <NavLink to="/verifier/dashboard/settings">Settings</NavLink>
               <span onClick={logout}>Logout</span>
             </div>
           )}

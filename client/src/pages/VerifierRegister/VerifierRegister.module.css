@@ -1,0 +1,231 @@
+/* Wrapper */
+.wrapper {
+  font-family: Inter, sans-serif;
+}
+
+/* General Page Layout */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logoWrap {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.logoFallback {
+  display: none;
+  width: 80px;
+  height: 80px;
+  background: #0066b3;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+}
+
+/* Headings */
+.h1style {
+  color: #003b6b;
+  margin: 10px 0 5px;
+  font-size: 26px;
+}
+
+.pstyle {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Form */
+.form {
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 10px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  border-color: #0066b3;
+  box-shadow: 0 0 0 3px rgba(0, 102, 179, 0.1);
+}
+
+/* File Input */
+.fileInput {
+  background: #f0f4f8;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid #e2e8f0;
+}
+
+.fileInput input {
+  display: none;
+}
+
+.uploadProgress {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: #1d4ed8;
+}
+
+/* Checkbox */
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.checkboxWrapper input {
+  accent-color: #0066b3;
+}
+
+/* Submit Button */
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: #005a9e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Messages */
+.message {
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.success {
+  color: #2f855a;
+}
+
+.error {
+  color: #c53030;
+}
+
+/* Sign In */
+.signin {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.signin a {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.signin a:hover {
+  text-decoration: underline;
+}
+
+/* Security Box */
+.security {
+  margin-top: 20px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 10px;
+  background: rgba(72, 187, 120, 0.05);
+  border: 1px solid rgba(72, 187, 120, 0.2);
+}
+
+.security h4 {
+  color: #2f855a;
+  font-weight: 700;
+}
+
+.security p {
+  color: #4a5568;
+}

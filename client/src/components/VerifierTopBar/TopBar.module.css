@@ -1,3 +1,14 @@
+:root {
+  --card: #f9fafb;
+  --border: #e5e7eb;
+  --muted: #6b7280;
+  --primary: #6366f1;
+  --text: #111827;
+}
+
+/* =========================
+   TOPBAR
+========================= */
 .topBar {
   position: fixed;
   top: 0;
@@ -8,14 +19,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1.5rem;
 
   background: var(--card);
-  padding: 1rem 1.5rem;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid var(--border);
-  z-index: 50;
+  z-index: 60;
 
-  transition: left 0.3s ease, background 0.3s ease;
+  transition: left 0.3s ease, background 0.3s ease, padding 0.3s ease;
 }
 
 /* mini sidebar mode */
@@ -23,17 +34,40 @@
   left: 4rem;
 }
 
-/* Text */
-.topBar h1 {
+/* =========================
+   LEFT SECTION
+========================= */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.leftSection h1 {
   font-size: 1.2rem;
   font-weight: 700;
+  margin: 0;
 }
 
-.topBar p {
+.leftSection p {
   font-size: 0.675rem;
   color: var(--muted);
+  margin: 0;
 }
 
+/* Mobile menu toggle */
+.mobileToggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  margin-right: 0.5rem;
+}
+
+/* =========================
+   USER INFO
+========================= */
 .userInfo {
   display: flex;
   align-items: center;
@@ -46,7 +80,6 @@
   gap: 0.6rem;
 }
 
-/* Avatar */
 .avatar {
   width: 2.25rem;
   height: 2.25rem;
@@ -83,4 +116,41 @@
 
 .bell {
   color: var(--muted);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1024px) {
+  .topBar {
+    left: 200px;
+    padding: 0 1rem;
+  }
+  .topBar[data-mini="true"] {
+    left: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .topBar {
+    left: 0;
+    padding: 0 0.75rem;
+  }
+
+  /* Show mobile toggle */
+  .mobileToggle {
+    display: block;
+  }
+
+  /* Hide user text in very small */
+  .userDetails .text {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .topBar {
+    height: 4rem;
+    padding: 0 0.5rem;
+  }
 }
