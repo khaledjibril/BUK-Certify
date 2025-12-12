@@ -2,9 +2,12 @@ import React from "react";
 import { Bell, Sun, Moon } from "lucide-react";
 import styles from "./TopBar.module.css";
 
-export default function TopBar({ isDark, setIsDark }) {
+export default function TopBar({ isDark, setIsDark, isMini }) {
   return (
-    <div className={styles.topBar}>
+    <div 
+      className={styles.topBar} 
+      data-mini={isMini ? "true" : "false"}
+    >
       <div>
         <h1>Verifier Control Center</h1>
         <p>BUK Digital Credential Verification System</p>

@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, Routes, Route, Navigate } from "react-router-dom";
+
 import Sidebar from "../components/VerifierSidebar/Sidebar";
 import TopBar from "../components/VerifierTopBar/TopBar";
+
 import Overview from "../pages/Verifier/Overview";
 import Scan from "../pages/Verifier/Scan";
 import Search from "../pages/Verifier/Search";
 import HistoryPage from "../pages/Verifier/History";
+
 import styles from "./VerifierLayout.module.css";
 
 export default function VerifyLayout() {
   const [isDark, setIsDark] = useState(() => {
     return localStorage.getItem("verify-theme") === "dark";
   });
+
   const [isMini, setIsMini] = useState(false);
 
   useEffect(() => {
@@ -26,22 +30,34 @@ export default function VerifyLayout() {
 
   return (
     <div className={styles.layoutRoot}>
-      {/* Sidebar with mini toggle */}
+      {/* FIXED SIDEBAR */}
       <Sidebar isMini={isMini} setIsMini={setIsMini} />
 
-      {/* Main content */}
-      <div className={styles.mainContent} data-mini={isMini ? "true" : "false"}>
-        <TopBar isDark={isDark} setIsDark={setIsDark} />
+      {/* MAIN AREA */}
+      <div
+        className={styles.mainContent}
+        data-mini={isMini ? "true" : "false"}
+      >
+        {/* FIXED TOPBAR */}
+        <TopBar 
+          isDark={isDark} 
+          setIsDark={setIsDark} 
+          isMini={isMini}
+        />
 
-        <div className={styles.contentArea}>
-          <Routes>
-            <Route index element={<Navigate to="overview" replace />} />
-            <Route path="overview" element={<Overview />} />
-            <Route path="scan" element={<Scan />} />
-            <Route path="search" element={<Search />} />
-            <Route path="history" element={<HistoryPage />} />
-          </Routes>
-          <Outlet />
+        {/* SCROLLABLE CONTENT AREA */}
+        <div className={styles.contentWrapper}>
+          <div className={styles.pageContent}>
+            <Routes>
+              <Route index element={<Navigate to="overview" replace />} />
+              <Route path="overview" element={<Overview />} />
+              <Route path="scan" element={<Scan />} />
+              <Route path="search" element={<Search />} />
+              <Route path="history" element={<HistoryPage />} />
+            </Routes>
+
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

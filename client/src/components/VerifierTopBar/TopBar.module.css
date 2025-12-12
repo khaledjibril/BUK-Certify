@@ -1,22 +1,36 @@
 .topBar {
+  position: fixed;
+  top: 0;
+  left: 240px;
+  right: 0;
+  height: 4.4rem;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+
   background: var(--card);
   padding: 1rem 1.5rem;
-  border-radius: 1rem;
   box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-  transition: background 0.3s ease;
+  border-bottom: 1px solid var(--border);
+  z-index: 50;
+
+  transition: left 0.3s ease, background 0.3s ease;
 }
 
+/* mini sidebar mode */
+.topBar[data-mini="true"] {
+  left: 4rem;
+}
+
+/* Text */
 .topBar h1 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 
 .topBar p {
-  font-size: 0.875rem;
+  font-size: 0.675rem;
   color: var(--muted);
 }
 
@@ -32,14 +46,15 @@
   gap: 0.6rem;
 }
 
+/* Avatar */
 .avatar {
   width: 2.25rem;
   height: 2.25rem;
-  border-radius: 9999px;
+  border-radius: 50%;
   background-color: var(--primary);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   color: white;
   font-weight: bold;
 }
@@ -64,8 +79,6 @@
   border: none;
   cursor: pointer;
   color: var(--text);
-  display: flex;
-  align-items: center;
 }
 
 .bell {

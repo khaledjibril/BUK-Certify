@@ -4,10 +4,11 @@ import ScrollToTop from './components/ScrollToTop';
 
 import LandingPage from './pages/LandingPage/LandingPage';
 import About from './pages/AboutPage/About';
-import VerifierLogin from './pages/VerifierLogin/VerifierLogin';
-import Verify from './pages/Verify/Verify';
 
+import Verify from './pages/Verify/Verify';
 import VerifyLayout from './layouts/VerifyLayout';
+
+import VerifierLogin from './pages/VerifierLogin/VerifierLogin';
 import VerifierLayout from './layouts/VerifierLayout';
 
 import AdminLogin from './pages/AdminLogin/AdminLogin';

@@ -33,6 +33,7 @@
   height: 32px;
   object-fit: contain;
   margin-right: 8px;
+  border-radius: 100%;
 }
 
 .title {

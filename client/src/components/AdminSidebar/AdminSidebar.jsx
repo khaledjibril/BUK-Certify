@@ -99,16 +99,6 @@ export default function AdminSidebar({ isMini, setIsMini }) {
           ))}
         </nav>
 
-        {/* Dark mode toggle */}
-        <button
-          className={styles.themeToggle}
-          onClick={() => setDarkMode(!darkMode)}
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-          {!isMini && <span className={styles.label}>Dark Mode</span>}
-        </button>
-
         {/* Footer logout */}
         <div className={styles.footerActions}>
           <button className={styles.logoutBtn} onClick={handleLogout} title={isMini ? 'Logout' : ''}>

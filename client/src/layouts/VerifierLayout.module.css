@@ -1,32 +1,43 @@
 .layoutRoot {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--bg);
   color: var(--text);
+  overflow: hidden;
 }
 
-/* Main content moves, not sidebar */
+/* MAIN CONTENT (moves when sidebar collapses) */
 .mainContent {
-  margin-left: 7rem; /* same as sidebar width */
   flex: 1;
+  margin-left: 240px;  /* matches sidebar width */
   display: flex;
   flex-direction: column;
+
   transition: margin-left 0.3s ease;
 }
 
-/* Adjust margin for mini sidebar */
+/* mini mode */
 .mainContent[data-mini="true"] {
-  margin-left: 4rem; /* mini mode width */
+  margin-left: 4rem;
 }
 
-.contentArea {
+/* area BELOW the fixed topbar */
+.contentWrapper {
   flex: 1;
-  padding: 2rem;
-  background: var(--bg-soft);
-  transition: background 0.3s ease, color 0.3s ease;
+  overflow-y: auto;
+  padding-top: 4.2rem; /* height of topbar */
+  background: var(--bg);
 }
 
-/* ================= LIGHT THEME ================= */
+/* actual content inside pages */
+.pageContent {
+  padding: 2rem;
+  min-height: calc(100vh - 4.2rem);
+  background: var(--bg);
+}
+
+/* =============== THEMES =============== */
+
 :root {
   --bg: #f1f5f9;
   --bg-soft: #f8fafc;
@@ -37,11 +48,10 @@
   --primary: #4f46e5;
 }
 
-/* ================= DARK THEME ================= */
 .dark {
   --bg: #020617;
   --bg-soft: #020617;
-  --card: #020617;
+  --card: #071019;
   --text: #e5e7eb;
   --muted: #94a3b8;
   --border: #1e293b;
