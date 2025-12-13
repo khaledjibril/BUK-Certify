@@ -68,7 +68,7 @@ function HeroCarousel() {
           <button className="primary-btn" onClick={() => navigate('/verifier-login')}>
             Verify a Certificate
           </button>
-          <button className="secondary-btn" onClick={() => navigate('/verifier-login')}>
+          <button className="secondary-btn" onClick={() => navigate('/verifier-register')}>
             Register as Verifier
           </button>
         </div>

@@ -27,8 +27,12 @@ export default function VerifierLogin() {
         window.location.href = "/verifier/dashboard";
       }, 1500);
     } catch (error) {
-      setMessage(error.message || "Login failed. Check credentials.");
-    }
+  if (error.message.includes("pending approval")) {
+    window.location.href = "/pending-approval";
+  } else {
+    setMessage(error.message || "Login failed");
+  }
+}
 
     setLoading(false);
   };

@@ -17,15 +17,11 @@
 .bukx-navbar.dark {
   background: #0f172a;
   border-color: #1e293b;
-  color: #e2e8f0;
+  color: #e5e7eb;
 }
 
-.bukx-navbar.dark .bukx-links a {
-  color: #e2e8f0;
-}
-
-.bukx-navbar.dark .bukx-toggle span {
-  background: #e2e8f0;
+.bukx-navbar.dark a {
+  color: inherit;
 }
 
 /* ================= BRAND ================= */
@@ -39,37 +35,59 @@
 .bukx-logo {
   width: 40px;
   height: 40px;
-  object-fit: contain;
 }
 
 .bukx-title {
-  font-weight: 800;
   font-size: 1.2rem;
-  color: inherit;
+  font-weight: 800;
 }
 
 /* ================= LINKS ================= */
 .bukx-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 26px;
   list-style: none;
-  transition: 0.3s ease;
+}
+
+.bukx-links li {
+  position: relative;
 }
 
 .bukx-links a {
   text-decoration: none;
-  color: inherit;
   font-weight: 600;
   font-size: 0.95rem;
+  color: inherit;
+  padding: 6px 0;
+  position: relative;
   transition: color 0.2s ease;
 }
 
-.bukx-links a:hover {
-  color: #0f766e;
+/* ================= ACTIVE LINK ================= */
+.active-link {
+  color: #0f766e !important;
 }
 
-/* ================= MEGA MENU ================= */
+.active-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: #0f766e;
+}
+
+.bukx-navbar.dark .active-link {
+  color: #34d399 !important;
+}
+
+.bukx-navbar.dark .active-link::after {
+  background: #34d399;
+}
+
+/* ================= SERVICES / MEGA ================= */
 .mega {
   position: relative;
 }
@@ -81,51 +99,44 @@
 
 .mega-menu {
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 0;
   width: 220px;
-  background: white;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 8px 0;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px 0;
-  border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: all 0.3s ease;
-  z-index: 100;
+  transition: all 0.25s ease;
+  z-index: 200;
 }
 
-.mega:hover .mega-menu,
-.mega-menu.open {
+.mega:hover .mega-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
 .mega-menu a {
-  padding: 8px 16px;
-  display: block;
-  font-size: 0.95rem;
-  color: inherit;
-  text-decoration: none;
-  transition: background 0.2s ease;
+  padding: 10px 16px;
+  font-size: 0.9rem;
 }
 
 .mega-menu a:hover {
   background: #f1f5f9;
-  color: #0f766e;
 }
 
+/* Dark dropdown */
 .bukx-navbar.dark .mega-menu {
   background: #1e293b;
 }
 
 .bukx-navbar.dark .mega-menu a:hover {
   background: #334155;
-  color: #0f766e;
 }
 
 /* ================= PROFILE ================= */
@@ -134,6 +145,9 @@
 }
 
 .profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
   font-weight: 600;
 }
@@ -141,38 +155,40 @@
 .profile-menu {
   position: absolute;
   right: 0;
-  top: 100%;
-  background: white;
+  top: 110%;
+  width: 180px;
+  background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  min-width: 170px;
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: all 0.3s ease;
-  z-index: 100;
+  transition: all 0.25s ease;
+  z-index: 200;
 }
 
-.profile-menu a,
-.profile-menu span {
-  padding: 12px 14px;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  font-size: 0.95rem;
-  transition: background 0.2s ease;
-}
-
-.profile:hover .profile-menu,
-.profile-menu.open {
+.profile:hover .profile-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
+.profile-menu a,
+.profile-menu span {
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.profile-menu a:hover,
+.profile-menu span:hover {
+  background: #f1f5f9;
+}
+
+/* Dark profile menu */
 .bukx-navbar.dark .profile-menu {
   background: #1e293b;
 }
@@ -182,20 +198,18 @@
   background: #334155;
 }
 
-/* ================= DARK MODE TOGGLE ================= */
+/* ================= THEME TOGGLE ================= */
 .theme-toggle {
-  border: none;
   background: none;
+  border: none;
   cursor: pointer;
-  padding: 6px;
   display: flex;
   align-items: center;
-  justify-content: center;
   transition: transform 0.2s ease;
 }
 
 .theme-toggle:hover {
-  transform: scale(1.12);
+  transform: scale(1.1);
 }
 
 /* ================= MOBILE BURGER ================= */
@@ -215,12 +229,18 @@
   transition: 0.3s ease;
 }
 
+.bukx-navbar.dark .bukx-toggle span {
+  background: #e5e7eb;
+}
+
 .bukx-toggle.active span:nth-child(1) {
   transform: rotate(45deg) translateY(8px);
 }
+
 .bukx-toggle.active span:nth-child(2) {
   opacity: 0;
 }
+
 .bukx-toggle.active span:nth-child(3) {
   transform: rotate(-45deg) translateY(-8px);
 }
@@ -234,17 +254,16 @@
   .bukx-links {
     position: fixed;
     top: 70px;
-    right: 0;
+    left: 0;
     width: 100%;
     flex-direction: column;
-    background: white;
+    background: #ffffff;
     padding: 25px;
     gap: 20px;
     transform: translateY(-120%);
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
-    z-index: 90;
   }
 
   .bukx-navbar.dark .bukx-links {
@@ -257,37 +276,16 @@
     pointer-events: auto;
   }
 
-  /* Mega menu becomes accordion style on mobile */
-  .mega-menu {
-    position: relative;
-    top: 0;
-    left: 0;
-    box-shadow: none;
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-    padding-left: 10px;
-  }
-
-  .mega-menu a {
-    padding-left: 20px;
-  }
-
+  /* Mobile dropdowns become inline */
+  .mega-menu,
   .profile-menu {
     position: relative;
     top: 0;
     box-shadow: none;
-    background: inherit;
-    transform: translateY(0);
+    transform: none;
     opacity: 1;
     visibility: visible;
+    background: inherit;
+    padding-left: 12px;
   }
-}
-/* ================= ACTIVE LINK ================= */
-.active-link {
-  font-weight: 700;
-  color: #0f766e !important; /* Highlight color */
-}
-.bukx-navbar.dark .active-link {
-  color: #34d399 !important; /* Dark mode highlight */
 }

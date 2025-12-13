@@ -1,27 +1,44 @@
-import React, { useState, useEffect, useRef } from 'react'; 
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, User } from 'lucide-react';
 import './Navbar.css';
+
+const NavItem = ({ to, label, onClick }) => (
+  <li>
+    <NavLink
+      to={to}
+      onClick={onClick}
+      className={({ isActive }) => (isActive ? 'active-link' : '')}
+    >
+      {label}
+    </NavLink>
+  </li>
+);
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('bukx-darkmode') === 'true';
-  });
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem('bukx-darkmode') === 'true'
+  );
 
   const menuRef = useRef(null);
   const burgerRef = useRef(null);
+  const profileRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleBurgerClick = (e) => {
-    e.stopPropagation(); 
-    setMenuOpen(prev => !prev);
-  };
+  /* ================= DEMO AUTH ================= */
+  const isAuthenticated = false;
+  const userRole = 'guest'; // guest | verifier | admin
+  const user = { name: 'Khaled' };
 
+  const isGuest = userRole === 'guest';
+  const isAdmin = userRole === 'admin';
+  const isVerifier = userRole === 'verifier';
+
+  /* ================= HANDLERS ================= */
   const closeMenu = () => setMenuOpen(false);
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Persist dark mode
   const toggleDarkMode = () => {
     setDarkMode(prev => {
       localStorage.setItem('bukx-darkmode', !prev);
@@ -29,27 +46,46 @@ function Navbar() {
     });
   };
 
-  // Close menu on click outside
+  const logout = () => alert('Logged out');
+
+  /* ================= OUTSIDE CLICK ================= */
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = e => {
       if (
         menuRef.current &&
         burgerRef.current &&
-        !menuRef.current.contains(event.target) &&
-        !burgerRef.current.contains(event.target)
+        !menuRef.current.contains(e.target) &&
+        !burgerRef.current.contains(e.target)
       ) {
         setMenuOpen(false);
       }
+
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
     };
+
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // ================= GUEST SERVICES =================
-  const guestServices = [
-    { label: 'Verifier Login', to: '/verifier-login' },
-    { label: 'Verify Certificate', to: '/verifier/dashboard' },
-  ];
+  /* ================= SERVICES CONFIG ================= */
+  const servicesByRole = {
+    admin: [
+      { label: 'Admin Settings', to: '/admin/settings' },
+      { label: 'Help Desk', to: '/help-desk' },
+    ],
+    verifier: [
+      { label: 'Verify Certificate', to: '/verifier/dashboard' },
+      { label: 'Help Desk', to: '/help-desk' },
+    ],
+    guest: [
+      { label: 'Login', to: '/verifier-login' },
+      { label: 'Register', to: '/verifier-register' },
+      { label: 'Verify Certificate', to: '/verifier/dashboard' },
+      { label: 'Help Desk', to: '/help-desk' },
+    ],
+  };
 
   return (
     <nav className={`bukx-navbar ${darkMode ? 'dark' : ''}`}>
@@ -58,7 +94,7 @@ function Navbar() {
         className="bukx-brand"
         onClick={() => {
           navigate('/');
-          scrollToTop();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           closeMenu();
         }}
       >
@@ -68,17 +104,16 @@ function Navbar() {
 
       {/* LINKS */}
       <ul className={`bukx-links ${menuOpen ? 'open' : ''}`} ref={menuRef}>
-
-        {/* Services Dropdown */}
+        {/* SERVICES */}
         <li className="mega">
           <span className="mega-title">Services ▾</span>
           <div className="mega-menu">
-            {guestServices.map((item, index) => (
-              <NavLink 
-                key={index} 
-                to={item.to} 
+            {servicesByRole[userRole].map(item => (
+              <NavLink
+                key={item.to}
+                to={item.to}
                 onClick={closeMenu}
-                className={({ isActive }) => isActive ? 'active-link' : ''}
+                className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
                 {item.label}
               </NavLink>
@@ -86,36 +121,50 @@ function Navbar() {
           </div>
         </li>
 
-        {/* Guest Links */}
-        <li>
-          <NavLink 
-            to="/" 
-            onClick={closeMenu} 
-            className={({ isActive }) => isActive ? 'active-link' : ''}
-          >
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/about" 
-            onClick={closeMenu} 
-            className={({ isActive }) => isActive ? 'active-link' : ''}
-          >
-            About
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/help-desk" 
-            onClick={closeMenu} 
-            className={({ isActive }) => isActive ? 'active-link' : ''}
-          >
-            Help Desk
-          </NavLink>
-        </li>
+        <NavItem to="/" label="Home" onClick={closeMenu} />
 
-        {/* DARK MODE TOGGLE */}
+        {/* ADMIN */}
+        {isAdmin && (
+          <NavItem
+            to="/admin/dashboard"
+            label="Admin Dashboard"
+            onClick={closeMenu}
+          />
+        )}
+
+        {/* GUEST ONLY */}
+        {isGuest && (
+          <>
+            <NavItem to="/about" label="About" onClick={closeMenu} />
+            <NavItem to="/help-desk" label="Help Desk" onClick={closeMenu} />
+          </>
+        )}
+
+        {/* PROFILE */}
+        {(isAdmin || isVerifier) && isAuthenticated && (
+          <li className="profile" ref={profileRef}>
+            <span
+              className="profile-trigger"
+              onClick={() => setProfileOpen(p => !p)}
+            >
+              <User size={16} /> {user.name} ▾
+            </span>
+
+            {profileOpen && (
+              <div className="profile-menu">
+                <NavLink to="/profile" onClick={closeMenu}>
+                  My Profile
+                </NavLink>
+                <NavLink to="/settings" onClick={closeMenu}>
+                  Settings
+                </NavLink>
+                <span onClick={logout}>Logout</span>
+              </div>
+            )}
+          </li>
+        )}
+
+        {/* THEME */}
         <li>
           <button className="theme-toggle" onClick={toggleDarkMode}>
             {darkMode ? <Sun size={18} /> : <Moon size={18} />}
@@ -125,9 +174,9 @@ function Navbar() {
 
       {/* MOBILE TOGGLE */}
       <button
-        className={`bukx-toggle ${menuOpen ? 'active' : ''}`}
-        onClick={handleBurgerClick}
         ref={burgerRef}
+        className={`bukx-toggle ${menuOpen ? 'active' : ''}`}
+        onClick={() => setMenuOpen(p => !p)}
         aria-label="Toggle menu"
       >
         <span />

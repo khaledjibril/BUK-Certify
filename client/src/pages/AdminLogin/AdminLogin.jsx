@@ -12,7 +12,7 @@ function AdminLogin({ onLogin }) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:3000/admin/login', {
+      const res = await fetch('http://localhost:4000/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password })
@@ -25,7 +25,7 @@ function AdminLogin({ onLogin }) {
         setError(data.error || 'Login failed');
       }
     } catch {
-      setError('Network error');
+      setError('Server error');
     }
     setLoading(false);
   };

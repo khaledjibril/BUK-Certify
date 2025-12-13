@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop';
 import LandingPage from './pages/LandingPage/LandingPage';
 import About from './pages/AboutPage/About';
 import HelpDesk from './pages/HelpDesk/HelpDesk';
+import PendingApproval from './pages/PendingApproval/PendingApproval';
 
 import Verify from './pages/Verify/Verify';
 import VerifyLayout from './layouts/VerifyLayout';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/help-desk" element={<HelpDesk />} />
+          <Route path="/pending-approval" element={<PendingApproval />} />
           <Route path="/verifier-login" element={<VerifierLogin />} />
           <Route path="/verifier-register" element={<VerifierRegister />} />
           <Route path="/admin-login" element={<AdminLogin />} />

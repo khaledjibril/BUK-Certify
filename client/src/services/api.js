@@ -1,5 +1,5 @@
 // src/services/api.js
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "http://localhost:5000/api/verifiers";
 
 export async function registerVerifier(formData) {
   try {
@@ -9,7 +9,7 @@ export async function registerVerifier(formData) {
       else payload.append(key, formData[key]);
     });
 
-    const response = await fetch(`${API_BASE_URL}/verifier/register`, {
+    const response = await fetch(`${API_BASE_URL}/register`, {
       method: "POST",
       body: payload,
     });
@@ -22,16 +22,16 @@ export async function registerVerifier(formData) {
   }
 }
 
-export async function loginVerifier(email, password) {
+export async function loginVerifier(formData) {
   try {
-    const response = await fetch(`${API_BASE_URL}/verifier/login`, {
+    const response = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(formData),
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Login failed");
+    if (!response.ok) throw new Error(data.message || "Login failed");
     return data;
   } catch (error) {
     throw error;
