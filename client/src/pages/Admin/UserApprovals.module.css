@@ -1,0 +1,232 @@
+/* UserApprovals.module.css */
+
+.page {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background: #f9f9f9;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.headerRow h1 {
+  margin: 0 0 10px 0;
+}
+
+.kpis {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.kpi {
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.searchInput,
+.select {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.bulkBtn,
+.exportBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.bulkBtn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.bulkBtn:disabled {
+  background-color: #94d3a2;
+  cursor: not-allowed;
+}
+
+.exportBtn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.exportBtn:hover {
+  background-color: #0069d9;
+}
+
+.table {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tableHeader,
+.row {
+  display: grid;
+  grid-template-columns: 40px 1.5fr 1.5fr 1fr 1fr 1fr 2fr;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.tableHeader {
+  background: #f1f1f1;
+  font-weight: bold;
+}
+
+.row:hover {
+  background: #f5f5f5;
+}
+
+.status {
+  font-weight: bold;
+  text-transform: capitalize;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.status.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status.approved {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status.rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status.deleted {
+  background-color: #e2e3e5;
+  color: #6c757d;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.approveBtn {
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.rejectBtn {
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.deleteBtn {
+  background-color: #6c757d;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.docLink {
+  color: #007bff;
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background: #f1f1f1;
+}
+
+.toaster {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  background: #333;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toast button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
