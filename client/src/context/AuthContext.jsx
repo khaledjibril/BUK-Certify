@@ -1,32 +1,71 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
 
-export const AuthContext = createContext();
+const AuthContext = createContext(null);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState("guest");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", userData.token);
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-  };
-
+  /* ================= LOAD SESSION ON REFRESH ================= */
   useEffect(() => {
-    // Optional: auto-logout on token expiration (can be extended later)
+    const token = localStorage.getItem("token");
+
+    // No token → stay logged out
+    if (!token || token === "undefined") return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      setUser({
+        id: decoded.id,
+        email: decoded.email
+      });
+      setRole(decoded.role);
+      setIsAuthenticated(true);
+    } catch (err) {
+      console.error("Invalid token", err);
+      logout();
+    }
   }, []);
 
+  /* ================= LOGIN ================= */
+  const login = ({ token }) => {
+    if (!token) return;
+
+    localStorage.setItem("token", token);
+
+    const decoded = jwtDecode(token);
+
+    setUser({
+      id: decoded.id,
+      email: decoded.email
+    });
+    setRole(decoded.role);
+    setIsAuthenticated(true);
+  };
+
+  /* ================= LOGOUT ================= */
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    setRole("guest");
+    setIsAuthenticated(false);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        role,
+        isAuthenticated,
+        login,
+        logout
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}
+
+export const useAuth = () => useContext(AuthContext);

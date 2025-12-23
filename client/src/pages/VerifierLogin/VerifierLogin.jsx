@@ -1,14 +1,18 @@
-// VerifierLogin.jsx
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { loginVerifier } from "../../services/api";
+import { useAuth } from "../../context/AuthContext"; // <-- import context
 import styles from "./VerifierLogin.module.css";
 
 export default function VerifierLogin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
+  const { login } = useAuth(); // <-- use AuthContext
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,19 +24,26 @@ export default function VerifierLogin() {
     setMessage("");
 
     try {
+      // Call backend API
       const data = await loginVerifier(formData);
-      localStorage.setItem("verifier_token", data.token);
+
+      // Update global auth context
+      login({ token: data.token, role: "verifier", user: data.verifier });
+
       setMessage("Login successful! Redirecting...");
+
+      // Redirect using react-router
       setTimeout(() => {
-        window.location.href = "/verifier/dashboard";
-      }, 1500);
+        navigate("/verifier/dashboard");
+      }, 1000);
     } catch (error) {
-  if (error.message.includes("pending approval")) {
-    window.location.href = "/pending-approval";
-  } else {
-    setMessage(error.message || "Login failed");
-  }
-}
+      // Pending approval handling
+      if (error.message?.toLowerCase().includes("pending approval")) {
+        navigate("/pending-approval");
+      } else {
+        setMessage(error.message || "Login failed");
+      }
+    }
 
     setLoading(false);
   };
@@ -59,7 +70,9 @@ export default function VerifierLogin() {
               </div>
             </div>
             <h1 className={styles.h1style}>Verifier Login</h1>
-            <p className={styles.pstyle}>Access the secure certificate verification system</p>
+            <p className={styles.pstyle}>
+              Access the secure certificate verification system
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
@@ -88,7 +101,9 @@ export default function VerifierLogin() {
             {message && (
               <p
                 className={`${styles.message} ${
-                  message.includes("successful") ? styles.success : styles.error
+                  message.toLowerCase().includes("successful")
+                    ? styles.success
+                    : styles.error
                 }`}
               >
                 {message}
@@ -101,11 +116,17 @@ export default function VerifierLogin() {
             </button>
           </form>
 
-          <div className={styles.signup}>Don't have an account? <a href="/verifier-register">Register here</a></div>
+          <div className={styles.signup}>
+            Don't have an account?{" "}
+            <a href="/verifier-register">Register here</a>
+          </div>
 
           <div className={styles.security}>
             <h4>Security Notice</h4>
-            <p>Your login is encrypted and protected. Unauthorized access is monitored.</p>
+            <p>
+              Your login is encrypted and protected. Unauthorized access is
+              monitored.
+            </p>
           </div>
         </div>
       </div>

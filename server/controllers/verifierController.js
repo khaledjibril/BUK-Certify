@@ -51,20 +51,45 @@ const loginVerifier = async (req, res) => {
 
   try {
     const verifier = await Verifier.findByEmail(email);
-    if (!verifier) return res.status(400).json({ message: 'Details not found: please register!' });
+    if (!verifier) {
+      return res.status(401).json({
+        message: "Invalid credentials"
+      });
+    }
 
-    // Check if approved
+        // Check if approved
     if (!verifier.is_approved) {
       return res.status(403).json({ message: 'Account pending approval' });
     }
 
+    // 🔑 Password check
     const isMatch = await bcrypt.compare(password, verifier.password);
-    if (!isMatch) return res.status(400).json({ message: 'Incorrect password' });
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "Invalid credentials"
+      });
+    }
 
-    const token = generateToken(verifier);
-    res.json({ token });
+    // 🎟 Generate token (ONLY minimal data)
+    const token = generateToken({
+      id: verifier.id,
+      role: "verifier"
+    });
+
+    // ✅ Consistent session response
+    res.json({
+      token,
+      role: "verifier",
+      user: {
+        id: verifier.id,
+        email: verifier.email,
+        fullName: verifier.full_name
+      }
+    });
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

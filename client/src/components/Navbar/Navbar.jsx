@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Sun, Moon, User } from 'lucide-react';
-import './Navbar.css';
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Sun, Moon, User } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import "./Navbar.css";
 
 const NavItem = ({ to, label, onClick }) => (
   <li>
     <NavLink
       to={to}
       onClick={onClick}
-      className={({ isActive }) => (isActive ? 'active-link' : '')}
+      className={({ isActive }) => (isActive ? "active-link" : "")}
     >
       {label}
     </NavLink>
@@ -19,7 +20,7 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem('bukx-darkmode') === 'true'
+    () => localStorage.getItem("bukx-darkmode") === "true"
   );
 
   const menuRef = useRef(null);
@@ -27,28 +28,28 @@ function Navbar() {
   const profileRef = useRef(null);
   const navigate = useNavigate();
 
-  /* ================= DEMO AUTH ================= */
-  const isAuthenticated = false;
-  const userRole = 'guest'; // guest | verifier | admin
-  const user = { name: 'Khaled' };
+  /* 🔐 AUTH SESSION */
+  const { user, role, isAuthenticated, logout } = useAuth();
 
-  const isGuest = userRole === 'guest';
-  const isAdmin = userRole === 'admin';
-  const isVerifier = userRole === 'verifier';
+  const isGuest = !isAuthenticated || role === "guest";
+  const isAdmin = role === "admin";
+  const isVerifier = role === "verifier";
 
-  /* ================= HANDLERS ================= */
   const closeMenu = () => setMenuOpen(false);
 
   const toggleDarkMode = () => {
     setDarkMode(prev => {
-      localStorage.setItem('bukx-darkmode', !prev);
+      localStorage.setItem("bukx-darkmode", !prev);
       return !prev;
     });
   };
 
-  const logout = () => alert('Logged out');
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
-  /* ================= OUTSIDE CLICK ================= */
+  /* OUTSIDE CLICK */
   useEffect(() => {
     const handleClickOutside = e => {
       if (
@@ -65,36 +66,39 @@ function Navbar() {
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  /* ================= SERVICES CONFIG ================= */
+  /* SERVICES PER ROLE */
   const servicesByRole = {
     admin: [
-      { label: 'Admin Settings', to: '/admin/settings' },
-      { label: 'Help Desk', to: '/help-desk' },
+      { label: "Admin Settings", to: "/admin/settings" },
+      { label: "Help Desk", to: "/help-desk" },
     ],
     verifier: [
-      { label: 'Verify Certificate', to: '/verifier/dashboard' },
-      { label: 'Help Desk', to: '/help-desk' },
+      { label: "Verify Certificate", to: "/verifier/dashboard" },
+      { label: "Help Desk", to: "/help-desk" },
     ],
     guest: [
-      { label: 'Login', to: '/verifier-login' },
-      { label: 'Register', to: '/verifier-register' },
-      { label: 'Verify Certificate', to: '/verifier/dashboard' },
-      { label: 'Help Desk', to: '/help-desk' },
+      { label: "Login", to: "/verifier-login" },
+      { label: "Register", to: "/verifier-register" },
+      { label: "Verify Certificate", to: "/verifier/dashboard" },
+      { label: "Help Desk", to: "/help-desk" },
     ],
   };
 
+  const currentServices =
+    servicesByRole[role] || servicesByRole.guest;
+
   return (
-    <nav className={`bukx-navbar ${darkMode ? 'dark' : ''}`}>
+    <nav className={`bukx-navbar ${darkMode ? "dark" : ""}`}>
       {/* BRAND */}
       <div
         className="bukx-brand"
         onClick={() => {
-          navigate('/');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          navigate("/");
+          window.scrollTo({ top: 0, behavior: "smooth" });
           closeMenu();
         }}
       >
@@ -103,17 +107,19 @@ function Navbar() {
       </div>
 
       {/* LINKS */}
-      <ul className={`bukx-links ${menuOpen ? 'open' : ''}`} ref={menuRef}>
+      <ul className={`bukx-links ${menuOpen ? "open" : ""}`} ref={menuRef}>
         {/* SERVICES */}
         <li className="mega">
           <span className="mega-title">Services ▾</span>
           <div className="mega-menu">
-            {servicesByRole[userRole].map(item => (
+            {currentServices.map(item => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 onClick={closeMenu}
-                className={({ isActive }) => (isActive ? 'active-link' : '')}
+                className={({ isActive }) =>
+                  isActive ? "active-link" : ""
+                }
               >
                 {item.label}
               </NavLink>
@@ -132,7 +138,7 @@ function Navbar() {
           />
         )}
 
-        {/* GUEST ONLY */}
+        {/* GUEST */}
         {isGuest && (
           <>
             <NavItem to="/about" label="About" onClick={closeMenu} />
@@ -147,7 +153,7 @@ function Navbar() {
               className="profile-trigger"
               onClick={() => setProfileOpen(p => !p)}
             >
-              <User size={16} /> {user.name} ▾
+              <User size={16} /> {user?.fullName || "Account"} ▾
             </span>
 
             {profileOpen && (
@@ -158,7 +164,7 @@ function Navbar() {
                 <NavLink to="/settings" onClick={closeMenu}>
                   Settings
                 </NavLink>
-                <span onClick={logout}>Logout</span>
+                <span onClick={handleLogout}>Logout</span>
               </div>
             )}
           </li>
@@ -172,10 +178,10 @@ function Navbar() {
         </li>
       </ul>
 
-      {/* MOBILE TOGGLE */}
+      {/* MOBILE */}
       <button
         ref={burgerRef}
-        className={`bukx-toggle ${menuOpen ? 'active' : ''}`}
+        className={`bukx-toggle ${menuOpen ? "active" : ""}`}
         onClick={() => setMenuOpen(p => !p)}
         aria-label="Toggle menu"
       >

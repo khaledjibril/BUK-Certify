@@ -1,21 +1,30 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const bcrypt = require("bcryptjs");
+const Admin = require("../models/adminModel");
+const generateToken = require("../utils/token");
 
 const loginAdmin = async (req, res) => {
   const { password } = req.body;
 
-  if (!password) return res.status(400).json({ error: 'Password is required' });
-
   try {
-    const isMatch = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
-    if (!isMatch) return res.status(401).json({ error: 'Incorrect password' });
+    const admin = await Admin.findAdmin();
+    if (!admin) {
+      return res.status(500).json({ error: "Admin not configured" });
+    }
 
-    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid" });
+    }
+
+    const token = generateToken({
+      id: admin.id,
+      email: admin.email,
+      role: "admin"
+    });
+
     res.json({ token });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
