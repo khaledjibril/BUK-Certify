@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext(null);
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState("guest");
@@ -11,7 +12,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // No token → stay logged out
     if (!token || token === "undefined") return;
 
     try {
@@ -54,15 +54,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        role,
-        isAuthenticated,
-        login,
-        logout
-      }}
-    >
+    <AuthContext.Provider value={{ user, role, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
