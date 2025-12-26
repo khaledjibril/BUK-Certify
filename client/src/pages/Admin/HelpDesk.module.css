@@ -1,0 +1,194 @@
+.page {
+  padding: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kpis {
+  display: flex;
+  gap: 1rem;
+}
+
+.kpi {
+  background: #f3f4f6;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.searchInput {
+  padding: 0.5rem;
+  flex: 1;
+}
+
+.select {
+  padding: 0.5rem;
+}
+
+.refreshBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.refreshBtn {
+  background: #6f42c1;
+  color: #fff;
+}
+.refreshBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.tableHeader,
+.row {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr 1fr 1fr;
+  padding: 0.75rem;
+  align-items: center;
+}
+
+.tableHeader {
+  background: #111827;
+  color: white;
+  font-weight: 600;
+}
+
+.row {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.status {
+  text-transform: capitalize;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.open {
+  color: #dc2626;
+}
+
+.closed {
+  color: #16a34a;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.replyBtn {
+  background: #2563eb;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 4px;
+  color: white;
+}
+
+.closedIcon {
+  color: #16a34a;
+}
+
+.loaderWrap,
+.empty {
+  text-align: center;
+  padding: 2rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: white;
+  padding: 1.5rem;
+  width: 420px;
+  border-radius: 8px;
+}
+
+.modalContent textarea {
+  width: 100%;
+  height: 120px;
+  margin-top: 1rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.submitBtn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.cancelBtn {
+  background: #9ca3af;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Toasts */
+.toaster {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.toast {
+  background: #111827;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import styles from "./HelpDesk.module.css";
+import { submitHelpDeskTicket } from "../../services/api";
 
 export default function HelpDesk() {
   const [form, setForm] = useState({
@@ -12,22 +13,44 @@ export default function HelpDesk() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSubmitted(false);
 
     if (!form.name || !form.email || !form.category || !form.message) {
-      alert("All fields are required.");
+      setError("All fields are required.");
       return;
     }
 
-    setSubmitted(true);
-    setForm({ name: "", email: "", category: "", message: "" });
+    try {
+      setLoading(true);
+
+      await submitHelpDeskTicket(form);
+
+      setSubmitted(true);
+      setForm({
+        name: "",
+        email: "",
+        category: "",
+        message: "",
+      });
+    } catch (err) {
+      setError(
+        err?.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -93,7 +116,14 @@ export default function HelpDesk() {
                 />
               </div>
 
-              <button className={styles.submitBtn}>Submit Ticket</button>
+              {error && <p className={styles.errorMsg}>❌ {error}</p>}
+
+              <button
+                className={styles.submitBtn}
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit Ticket"}
+              </button>
 
               {submitted && (
                 <p className={styles.successMsg}>

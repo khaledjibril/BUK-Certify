@@ -40,7 +40,7 @@ export default function AdminSidebar({ isMini, setIsMini }) {
     { to: '/admin/dashboard/certificates', label: 'Certificates', icon: <FileText size={20} /> },
     { to: '/admin/dashboard/qr', label: 'QR Manager', icon: <QrCode size={20} /> },
     { to: '/admin/dashboard/logs', label: 'Security Logs', icon: <ShieldCheck size={20} /> },
-    { to: '/admin/dashboard/HelpDesk', label: 'HelpDesk', icon: <HelpingHand size={20} /> },
+    { to: '/admin/dashboard/help-desk', label: 'HelpDesk', icon: <HelpingHand size={20} /> },
     { to: '/admin/dashboard/settings', label: 'Settings', icon: <Settings size={20} /> },
   ];
 
