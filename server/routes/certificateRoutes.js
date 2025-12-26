@@ -1,5 +1,5 @@
 import express from "express";
-import { upload } from "../config/multer.js";
+import upload from "../config/multer.js";
 import {
   uploadCertificate,
   listCertificates,
@@ -13,4 +13,3 @@ router.post("/", upload.single("certificate"), uploadCertificate);
 router.patch("/:id/revoke", revokeCertificate);
 
 export default router;
-s

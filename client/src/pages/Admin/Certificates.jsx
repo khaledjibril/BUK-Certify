@@ -1,13 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Eye, Ban } from "lucide-react";
+import { Eye, Ban, RefreshCw, Loader2 } from "lucide-react";
 import styles from "./Certificates.module.css";
 import { certificateApi } from "../../services/certificateApi";
+
+const ITEMS_PER_PAGE = 8;
 
 export default function Certificates() {
   const [certs, setCerts] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [preview, setPreview] = useState(null);
   const [toast, setToast] = useState(null);
+
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   const [form, setForm] = useState({
     studentName: "",
@@ -21,19 +27,33 @@ export default function Certificates() {
 
   const [file, setFile] = useState(null);
 
-  /* -------------------------------- Toast -------------------------------- */
+  /* ================= Toast ================= */
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(null), 3500);
   };
 
-  /* ------------------------------- Fetch Certs ----------------------------- */
+  /* ================= Fetch ================= */
   const fetchCertificates = async () => {
+    setLoading(true);
     try {
       const data = await certificateApi.list();
-      setCerts(data);
+
+      // 🔥 FORCE DB DATA TO UPPERCASE
+      const normalized = data.map((c) => ({
+        ...c,
+        studentName: c.studentName?.toUpperCase(),
+        regNumber: c.regNumber?.toUpperCase(),
+        course: c.course?.toUpperCase(),
+        certificateNumber: c.certificateNumber?.toUpperCase(),
+        status: c.status?.toUpperCase(),
+      }));
+
+      setCerts(normalized);
     } catch (err) {
       showToast(err.message || "Failed to load certificates");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,31 +61,34 @@ export default function Certificates() {
     fetchCertificates();
   }, []);
 
-  /* ----------------------------- Upload Handler ---------------------------- */
+  /* ================= Upload ================= */
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!file) return showToast("Please select a certificate image");
+    if (!file) return showToast("PLEASE SELECT A CERTIFICATE IMAGE");
 
     const data = new FormData();
-    Object.entries(form).forEach(([k, v]) => data.append(k, v));
+    Object.entries(form).forEach(([k, v]) =>
+      data.append(k, typeof v === "string" ? v.toUpperCase() : v)
+    );
     data.append("certificate", file);
 
     try {
       setLoading(true);
       const res = await certificateApi.upload(data);
 
-      setCerts((prev) => [res.certificate, ...prev]);
-      showToast("Certificate uploaded successfully");
+      setCerts((prev) => [
+        {
+          ...res.certificate,
+          studentName: res.certificate.studentName?.toUpperCase(),
+          regNumber: res.certificate.regNumber?.toUpperCase(),
+          course: res.certificate.course?.toUpperCase(),
+          certificateNumber: res.certificate.certificateNumber?.toUpperCase(),
+          status: res.certificate.status?.toUpperCase(),
+        },
+        ...prev,
+      ]);
 
-      setForm({
-        studentName: "",
-        regNumber: "",
-        course: "",
-        graduationYear: "",
-        issueDate: "",
-        gradeType: "CLASS",
-        gradeValue: "",
-      });
+      showToast("CERTIFICATE UPLOADED");
       setFile(null);
     } catch (err) {
       showToast(err.message);
@@ -74,84 +97,141 @@ export default function Certificates() {
     }
   };
 
-  /* ------------------------------ Revoke Cert ------------------------------ */
+  /* ================= Revoke ================= */
   const revokeCertificate = async (id) => {
-    if (!window.confirm("Revoke this certificate?")) return;
+    if (!window.confirm("REVOKE THIS CERTIFICATE?")) return;
 
     try {
       await certificateApi.revoke(id);
       setCerts((s) =>
-        s.map((c) => (c.id === id ? { ...c, status: "REVOKED" } : c))
+        s.map((c) =>
+          c.id === id ? { ...c, status: "REVOKED" } : c
+        )
       );
-      showToast("Certificate revoked");
+      showToast("CERTIFICATE REVOKED");
     } catch (err) {
-      showToast(err.message || "Failed to revoke certificate");
+      showToast(err.message || "FAILED TO REVOKE");
     }
   };
 
-  /* ------------------------------- KPI Stats ------------------------------- */
+  /* ================= KPI ================= */
   const stats = useMemo(() => {
-    const total = certs.length;
-    const active = certs.filter((c) => c.status === "ACTIVE").length;
-    const revoked = certs.filter((c) => c.status === "REVOKED").length;
-    return { total, active, revoked };
+    return {
+      total: certs.length,
+      active: certs.filter((c) => c.status === "ACTIVE").length,
+      revoked: certs.filter((c) => c.status === "REVOKED").length,
+    };
   }, [certs]);
 
-  /* --------------------------------- JSX ---------------------------------- */
+  /* ================= Filtering ================= */
+  const filtered = useMemo(() => {
+    return certs.filter((c) => {
+      if (!search) return true;
+      const q = search.toUpperCase();
+      return (
+        c.studentName?.includes(q) ||
+        c.regNumber?.includes(q) ||
+        c.certificateNumber?.includes(q)
+      );
+    });
+  }, [certs, search]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filtered.length / ITEMS_PER_PAGE)
+  );
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  const pageData = useMemo(() => {
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    return filtered.slice(start, start + ITEMS_PER_PAGE);
+  }, [filtered, page]);
+
+  /* ================= JSX ================= */
   return (
     <div className={styles.container}>
       {/* KPI */}
       <div className={styles.kpiGrid}>
-        <Kpi label="Total" value={stats.total} />
-        <Kpi label="Active" value={stats.active} green />
-        <Kpi label="Revoked" value={stats.revoked} red />
+        <Kpi label="TOTAL" value={stats.total} />
+        <Kpi label="ACTIVE" value={stats.active} green />
+        <Kpi label="REVOKED" value={stats.revoked} red />
+      </div>
+
+      {/* CONTROLS */}
+      <div className={styles.controls}>
+        <input
+          placeholder="SEARCH NAME / REG NO / CERT NO"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <button onClick={fetchCertificates} disabled={loading}>
+          <RefreshCw
+            size={14}
+            className={loading ? styles.spin : ""}
+          />
+          REFRESH
+        </button>
       </div>
 
       {/* Upload */}
       <div className={styles.card}>
-        <h3>Upload Certificate</h3>
+        <h3>UPLOAD CERTIFICATE</h3>
         <form onSubmit={handleUpload} className={styles.form}>
           <input
-            placeholder="Student Full Name"
+            placeholder="STUDENT FULL NAME"
             value={form.studentName}
-            onChange={(e) => setForm({ ...form, studentName: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, studentName: e.target.value })
+            }
             required
           />
           <input
-            placeholder="Registration Number"
+            placeholder="REGISTRATION NUMBER"
             value={form.regNumber}
-            onChange={(e) => setForm({ ...form, regNumber: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, regNumber: e.target.value })
+            }
             required
           />
           <input
-            placeholder="Course / Programme"
+            placeholder="COURSE / PROGRAMME"
             value={form.course}
-            onChange={(e) => setForm({ ...form, course: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, course: e.target.value })
+            }
             required
           />
 
           <select
             value={form.gradeType}
-            onChange={(e) => setForm({ ...form, gradeType: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, gradeType: e.target.value })
+            }
           >
-            <option value="CLASS">Degree Class</option>
+            <option value="CLASS">DEGREE CLASS</option>
             <option value="GPA">GPA</option>
           </select>
 
           <input
             placeholder={
               form.gradeType === "CLASS"
-                ? "e.g. First Class Honours"
-                : "e.g. 4.52"
+                ? "FIRST CLASS HONOURS"
+                : "4.52"
             }
             value={form.gradeValue}
-            onChange={(e) => setForm({ ...form, gradeValue: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, gradeValue: e.target.value })
+            }
             required
           />
 
           <input
             type="number"
-            placeholder="Graduation Year"
+            placeholder="GRADUATION YEAR"
             value={form.graduationYear}
             onChange={(e) =>
               setForm({ ...form, graduationYear: e.target.value })
@@ -162,7 +242,9 @@ export default function Certificates() {
           <input
             type="date"
             value={form.issueDate}
-            onChange={(e) => setForm({ ...form, issueDate: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, issueDate: e.target.value })
+            }
             required
           />
 
@@ -174,59 +256,89 @@ export default function Certificates() {
           />
 
           <button disabled={loading}>
-            {loading ? "Uploading..." : "Upload"}
+            {loading ? "UPLOADING..." : "UPLOAD"}
           </button>
         </form>
       </div>
 
-      {/* Table */}
+      {/* TABLE */}
       <div className={styles.tableWrap}>
-        <table>
-          <thead>
-            <tr>
-              <th>Cert No</th>
-              <th>Student</th>
-              <th>Reg No</th>
-              <th>Course</th>
-              <th>Status</th>
-              <th>Issued</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {certs.map((c) => (
-              <tr key={c.id}>
-                <td>{c.certificateNumber}</td>
-                <td>{c.studentName}</td>
-                <td>{c.regNumber}</td>
-                <td>{c.course}</td>
-                <td
-                  className={
-                    c.status === "ACTIVE"
-                      ? styles.active
-                      : styles.revoked
-                  }
-                >
-                  {c.status}
-                </td>
-                <td>{new Date(c.issueDate).toLocaleDateString()}</td>
-                <td className={styles.actions}>
-                  <button onClick={() => setPreview(c)}>
-                    <Eye size={16} />
-                  </button>
-                  {c.status === "ACTIVE" && (
-                    <button onClick={() => revokeCertificate(c.id)}>
-                      <Ban size={16} />
-                    </button>
-                  )}
-                </td>
+        {loading ? (
+          <div className={styles.loader}>
+            <Loader2 size={32} className={styles.spin} />
+            LOADING CERTIFICATES…
+          </div>
+        ) : pageData.length === 0 ? (
+          <div className={styles.empty}>NO CERTIFICATES FOUND</div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>CERT NO</th>
+                <th>STUDENT</th>
+                <th>REG NO</th>
+                <th>COURSE</th>
+                <th>STATUS</th>
+                <th>ISSUED</th>
+                <th>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pageData.map((c) => (
+                <tr key={c.id}>
+                  <td>{c.certificateNumber}</td>
+                  <td>{c.studentName}</td>
+                  <td>{c.regNumber}</td>
+                  <td>{c.course}</td>
+                  <td
+                    className={
+                      c.status === "ACTIVE"
+                        ? styles.active
+                        : styles.revoked
+                    }
+                  >
+                    {c.status}
+                  </td>
+                  <td>
+                    {new Date(c.issueDate).toLocaleDateString()}
+                  </td>
+                  <td className={styles.actions}>
+                    <button onClick={() => setPreview(c)}>
+                      <Eye size={16} />
+                    </button>
+                    {c.status === "ACTIVE" && (
+                      <button
+                        onClick={() => revokeCertificate(c.id)}
+                      >
+                        <Ban size={16} />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
-      {/* Preview */}
+      {/* PAGINATION */}
+      <div className={styles.pagination}>
+        <button onClick={() => setPage((p) => Math.max(1, p - 1))}>
+          ◀
+        </button>
+        <span>
+          PAGE {page} OF {totalPages}
+        </span>
+        <button
+          onClick={() =>
+            setPage((p) => Math.min(totalPages, p + 1))
+          }
+        >
+          ▶
+        </button>
+      </div>
+
+      {/* PREVIEW */}
       {preview && (
         <Modal onClose={() => setPreview(null)}>
           <img
@@ -242,7 +354,7 @@ export default function Certificates() {
   );
 }
 
-/* ---------------------------- Helper Components --------------------------- */
+/* ================= Helpers ================= */
 
 function Kpi({ label, value, green, red }) {
   return (
@@ -262,7 +374,7 @@ function Modal({ children, onClose }) {
     <div className={styles.modal}>
       <div className={styles.backdrop} onClick={onClose} />
       <div className={styles.modalBox}>
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose}>CLOSE</button>
         {children}
       </div>
     </div>

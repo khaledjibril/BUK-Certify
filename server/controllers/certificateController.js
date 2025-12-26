@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import path from "path";
 import { Certificate } from "../models/certificateModel.js";
 import { generateQR } from "../services/qrService.js";
 import { mergeQR } from "../services/imageService.js";
@@ -17,13 +16,16 @@ export const uploadCertificate = async (req, res) => {
   } = req.body;
 
   const hash = crypto.randomBytes(16).toString("hex");
-  const verifyUrl = `${process.env.FRONTEND_URL}/verify/${hash}`;
 
-  const qrPath = `uploads/qr/${hash}.png`;
-  const finalPath = `uploads/certificates/final-${hash}.png`;
+  const verificationUrl = `${process.env.FRONTEND_URL}/verifier/dashboard/search/${hash}`;
 
-  await generateQR(verifyUrl, qrPath);
-  await mergeQR(req.file.path, qrPath, finalPath);
+  // filenames only
+  const qrFilename = `${hash}.png`;
+  const finalFilename = `final-${hash}.png`;
+
+  // generate assets
+  const qrPath = await generateQR(verificationUrl, qrFilename);
+  const finalPath = await mergeQR(req.file.path, qrPath, finalFilename);
 
   const certificate = await Certificate.create({
     student_name: studentName,
@@ -34,9 +36,11 @@ export const uploadCertificate = async (req, res) => {
     certificate_number: generateCertNumber(course, graduationYear),
     grade_type: gradeType,
     grade_value: gradeValue,
+
     certificate_image_url: `/${finalPath}`,
     qr_code_url: `/${qrPath}`,
     verification_hash: hash,
+    verification_url: verificationUrl, // ✅ FIXED
   });
 
   res.status(201).json({ certificate });

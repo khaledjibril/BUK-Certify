@@ -1,6 +1,6 @@
 // services/certificateApi.js
 
-const BASE_URL = "/api/certificates";
+const BASE_URL = "http://localhost:5000/api/certificate";
 
 async function handleResponse(res) {
   let data;

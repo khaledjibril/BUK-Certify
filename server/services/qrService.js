@@ -1,6 +1,18 @@
-const QRCode = require( "qrcode");
-const fs = require( "fs/promises");
+import QRCode from "qrcode";
+import fs from "fs";
+import path from "path";
 
-export const generateQR = async (url, filePath) => {
+const QR_DIR = "uploads/qr";
+
+// ✅ Ensure directory exists
+if (!fs.existsSync(QR_DIR)) {
+  fs.mkdirSync(QR_DIR, { recursive: true });
+}
+
+export const generateQR = async (url, filename) => {
+  const filePath = path.join(QR_DIR, filename);
+
   await QRCode.toFile(filePath, url);
+
+  return filePath;
 };
