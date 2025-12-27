@@ -5,7 +5,7 @@ import Sidebar from "../components/VerifierSidebar/Sidebar";
 import TopBar from "../components/VerifierTopBar/TopBar";
 
 import Overview from "../pages/Verifier/Overview";
-import Scan from "../pages/Verifier/Scan";
+import RequestUVC from "../pages/Verifier/RequestUVC";
 import Search from "../pages/Verifier/Search";
 import HistoryPage from "../pages/Verifier/History";
 
@@ -59,7 +59,7 @@ export default function VerifierLayout() {
             <Routes>
               <Route index element={<Navigate to="overview" replace />} />
               <Route path="overview" element={<Overview />} />
-              <Route path="scan" element={<Scan />} />
+              <Route path="Request UVC" element={<RequestUVC />} />
               <Route path="search" element={<Search />} />
               <Route path="history" element={<HistoryPage />} />
             </Routes>

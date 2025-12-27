@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import styles from "./AuditLogs.module.css";
+import * as adminApi from "../../services/verifycertificate.js";
 
+export default function AuditLogs() {
+  const [logs, setLogs] = useState([]);
 
-export default function SecurityLogs() {
-return (
-<div>
-<h1>Security & Audit Logs</h1>
-<div style={{ marginTop:12, background:'#fff', padding:16, borderRadius:10 }}>
-<ul>
-<li>2025-11-12 10:34 — Admin login from 41.73.22.5</li>
-<li>2025-11-12 11:02 — Certificate verified — Matric 19/LAW/221</li>
-<li>2025-11-13 09:20 — Failed admin login attempt — 203.0.113.9</li>
-</ul>
-</div>
-</div>
-);
+  useEffect(() => {
+    adminApi.getAuditLogs().then(setLogs);
+  }, []);
+
+  return (
+    <div className={styles.page}>
+      <h1>Verification Logs</h1>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Verifier</th>
+            <th>UVC</th>
+            <th>Certificate</th>
+            <th>IP</th>
+            <th>Result</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {logs.map((l) => (
+            <tr key={l.id}>
+              <td>{l.email}</td>
+              <td>{l.uvc_code}</td>
+              <td>{l.certificate_number}</td>
+              <td>{l.ip_address}</td>
+              <td>{l.result}</td>
+              <td>{new Date(l.created_at).toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }

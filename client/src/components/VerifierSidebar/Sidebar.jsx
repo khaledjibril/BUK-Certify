@@ -8,7 +8,8 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronLeft
+  HelpCircle,
+  ChevronLeft,
 } from "lucide-react";
 
 import NavIcon from "../NavIcon/NavIcon";
@@ -35,7 +36,7 @@ export default function Sidebar({ isMini, setIsMini }) {
 
   const navItems = [
     { name: "Overview", path: `${basePath}/overview`, icon: <ShieldCheck /> },
-    { name: "Scan", path: `${basePath}/scan`, icon: <ScanLine /> },
+    { name: "Request UVC", path: `${basePath}/request-uvc`, icon: <HelpCircle /> },
     { name: "Search", path: `${basePath}/search`, icon: <FileSearch /> },
     { name: "History", path: `${basePath}/history`, icon: <History /> }
   ];
@@ -134,8 +135,8 @@ export default function Sidebar({ isMini, setIsMini }) {
             aria-label="Logout"
           >
             <LogOut size={18} />
-            {!isMini && <span>Logout</span>}
-            {isMini && <span className={styles.tooltip}>Logout</span>}
+            {!isMini && <span>Home</span>}
+            {isMini && <span className={styles.tooltip}>Home</span>}
           </button>
         </div>
       </aside>

@@ -1,0 +1,68 @@
+.page {
+  padding: 24px;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.page h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  border-left: 4px solid #2563eb;
+}
+
+.card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.card strong {
+  color: #111827;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.actions button {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.actions button:hover {
+  transform: translateY(-1px);
+}
+
+.actions button:first-child {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.actions button:first-child:hover {
+  background: #1e40af;
+}
+
+.reject {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.reject:hover {
+  background: #fecaca;
+}

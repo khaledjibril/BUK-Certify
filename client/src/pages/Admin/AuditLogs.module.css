@@ -1,0 +1,71 @@
+.page {
+  padding: 24px;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.page h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+thead {
+  background: #111827;
+}
+
+thead th {
+  color: #f9fafb;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 14px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody td {
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #374151;
+}
+
+tbody tr:hover {
+  background: #f3f4f6;
+}
+
+td:nth-child(5) {
+  font-weight: 600;
+}
+
+td:nth-child(5)::before {
+  content: "● ";
+  font-size: 10px;
+}
+
+td:nth-child(5)[data-status="FOUND"] {
+  color: #15803d;
+}
+
+td:nth-child(5)[data-status="NOT_FOUND"] {
+  color: #b91c1c;
+}
+
+td:nth-child(5)[data-status="REVOKED"] {
+  color: #92400e;
+}

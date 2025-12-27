@@ -74,3 +74,43 @@ list: async () => {
     );
   },
 };
+
+export const findByCertificateNumber = async (input) => {
+  const normalize = (v) =>
+    v
+      .replace(/\s+/g, "")   // remove all spaces
+      .replace(/\./g, "/")   // dots → slashes
+      .toUpperCase();
+
+  const value = normalize(input);
+
+  const { rows } = await pool.query(
+    `
+    SELECT *
+    FROM certificates
+    WHERE
+      REPLACE(UPPER(certificate_number), ' ', '') = $1
+      OR
+      REPLACE(UPPER(reg_number), ' ', '') = $1
+    LIMIT 1
+    `,
+    [value]
+  );
+
+  return rows[0] || null;
+};
+export const findByVerificationToken = async (token) => {
+  const { rows } = await pool.query(
+    `
+    SELECT
+      reg_number,
+      certificate_image_url
+    FROM certificates
+    WHERE verification_hash = $1
+    LIMIT 1
+    `,
+    [token]
+  );
+
+  return rows[0] || null;
+};

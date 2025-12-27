@@ -9,6 +9,7 @@ import adminVerifierRoutes from "./routes/adminVerifierRoutes.js";
 import helpdeskRoutes from "./routes/helpdeskRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import certificateRoutes from "./routes/certificateRoutes.js";
+import verifyRoutes from "./routes/verifyCertificateRoutes.js";
 
 const app = express();
 
@@ -16,7 +17,14 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // frontend origin
+    credentials: true,               // allow cookies
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -27,6 +35,8 @@ app.use("/admin/login", adminRoutes);
 app.use("/api/helpdesk", helpdeskRoutes);
 app.use("/api/certificate", certificateRoutes);
 app.use("/admin", adminVerifierRoutes);
+app.use("/api/verifier", verifyRoutes);
+
 
 // Global error handler
 app.use((err, req, res, next) => {
