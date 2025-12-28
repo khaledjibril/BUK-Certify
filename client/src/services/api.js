@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from "axios";
-const API_BASE_URL = "http://buk-certify-backend.onrender.com/api/verifiers";
-const HELP_DESK_BASE_URL = "http://buk-certify-backend.onrender.com/api/helpdesk";
+const API_BASE_URL = "https://buk-certify-backend.onrender.com/api/verifiers";
+const HELP_DESK_BASE_URL = "https://buk-certify-backend.onrender.com/api/helpdesk";
 
 /* =========================
    VERIFIER AUTH APIS
@@ -78,13 +78,13 @@ export async function submitHelpDeskTicket(formData) {
 ================================ */
 
 export const getHelpdeskTickets = async () => {
-  const res = await axios.get("http://buk-certify-backend.onrender.com/api/helpdesk");
+  const res = await axios.get("https://buk-certify-backend.onrender.com/api/helpdesk");
   return res.data;
 };
 
 export const closeHelpdeskTicket = async (ticketId, reply) => {
   const res = await axios.put(
-    `http://buk-certify-backend.onrender.com/api/helpdesk/${ticketId}/close`,
+    `https://buk-certify-backend.onrender.com/api/helpdesk/${ticketId}/close`,
     { reply }
   );
   return res.data;

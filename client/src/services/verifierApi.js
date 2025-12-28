@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://buk-certify-backend.onrender.com/api",
+  baseURL: "https://buk-certify-backend.onrender.com/api",
 });
 
 export const verifierApi = {

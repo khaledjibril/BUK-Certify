@@ -5,7 +5,7 @@ import axios from "axios";
 ----------------------------------- */
 const API = axios.create({
   baseURL:
-    process.env.REACT_APP_API_URL || "http://buk-certify-backend.onrender.com/api",
+    process.env.REACT_APP_API_URL || "https://buk-certify-backend.onrender.com/api",
   withCredentials: true,
 });
 
