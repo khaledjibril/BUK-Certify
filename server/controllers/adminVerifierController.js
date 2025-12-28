@@ -15,7 +15,12 @@ exports.getVerifiers = async (req, res) => {
 };
 
 /* ================= APPROVE VERIFIER ================= */
-
+exports.approveVerify = async (req, res) => { 
+  try { 
+    const verifier = await Verifier.approve(req.params.id);
+     res.json(verifier); 
+    } catch { 
+      res.status(500).json({ message: "Approval failed" }); } };
 exports.approveVerifier = async (req, res) => {
   const client = await pool.connect();
 
