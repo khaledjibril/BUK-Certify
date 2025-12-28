@@ -18,7 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cors({
-  origin: "http://bukcertify.vercel.app", // or "*" to allow all
+  origin: "https://bukcertify.vercel.app", // or "*" to allow all
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
