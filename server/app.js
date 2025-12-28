@@ -19,8 +19,10 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // frontend origin
-    credentials: true,               // allow cookies
+origin: [
+      "http://localhost:3000",
+      process.env.FRONTEND_URL // optional for env-based URL
+    ],    credentials: true,               // allow cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

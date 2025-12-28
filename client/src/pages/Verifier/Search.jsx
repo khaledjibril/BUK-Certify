@@ -156,7 +156,7 @@ export default function Search() {
                           />
 
                           <a
-                                href={`http://localhost:5000/api/verifier/download/${result.verificationHash}`}
+                                href={`http://buk-certify-backend.onrender.com/api/verifier/download/${result.verificationHash}`}
                                 className={styles.downloadBtn}
                               >
                                 <Download size={16} /> Download Certificate

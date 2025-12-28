@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000/admin" });
+const API = axios.create({ baseURL: "http://buk-certify-backend.onrender.com/admin" });
 
 export const getUsers = async () => {
   const res = await API.get("/verifiers");

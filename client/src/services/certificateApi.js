@@ -1,6 +1,6 @@
 // services/certificateApi.js
 
-const BASE_URL = "http://localhost:5000/api/certificate";
+const BASE_URL = "http://buk-certify-backend.onrender.com/api/certificate";
 
 async function handleResponse(res) {
   let data;
